@@ -33,3 +33,4 @@ C:\Users\hussi\source\repos\ServeyBasket\ServeyBasket.Api\obj\Debug\net10.0\Serv
 C:\Users\hussi\source\repos\ServeyBasket\ServeyBasket.Api\obj\Debug\net10.0\ServeyBasket.Api.genruntimeconfig.cache
 C:\Users\hussi\source\repos\ServeyBasket\ServeyBasket.Api\obj\Debug\net10.0\ref\ServeyBasket.Api.dll
 C:\Users\hussi\source\repos\ServeyBasket\ServeyBasket.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\hussi\source\repos\ServeyBasket\ServeyBasket.Api\obj\Debug\net10.0\ServeyBasket.Api.sourcelink.json
