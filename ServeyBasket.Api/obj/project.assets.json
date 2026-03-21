@@ -127,9 +127,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\hussi\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\ServeyBasket.Api.csproj",
-      "projectName": "ServeyBasket.Api",
-      "projectPath": "C:\\Users\\hussi\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\ServeyBasket.Api.csproj",
+      "projectUniqueName": "C:\\Users\\hussi\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\ServeyBasket.csproj",
+      "projectName": "ServeyBasket",
+      "projectPath": "C:\\Users\\hussi\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\ServeyBasket.csproj",
       "packagesPath": "C:\\Users\\hussi\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\hussi\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\obj\\",
       "projectStyle": "PackageReference",

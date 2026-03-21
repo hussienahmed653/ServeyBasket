@@ -1,6 +1,6 @@
 [
   {
-    "ContainingType": "ServeyBasket.Api.Controllers.PollsController",
+    "ContainingType": "ServeyBasket.Controllers.PollsController",
     "Method": "GetAll",
     "RelativePath": "api/Polls",
     "HttpMethod": "GET",
@@ -10,7 +10,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ServeyBasket.Api.Controllers.PollsController",
+    "ContainingType": "ServeyBasket.Controllers.PollsController",
     "Method": "Add",
     "RelativePath": "api/Polls",
     "HttpMethod": "POST",
@@ -19,14 +19,14 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "ServeyBasket.Api.Models.Poll",
+        "Type": "ServeyBasket.Models.Poll",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ServeyBasket.Api.Controllers.PollsController",
+    "ContainingType": "ServeyBasket.Controllers.PollsController",
     "Method": "Get",
     "RelativePath": "api/Polls/{id}",
     "HttpMethod": "GET",
@@ -42,7 +42,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ServeyBasket.Api.Controllers.PollsController",
+    "ContainingType": "ServeyBasket.Controllers.PollsController",
     "Method": "Update",
     "RelativePath": "api/Polls/{id}",
     "HttpMethod": "PUT",
@@ -56,14 +56,14 @@
       },
       {
         "Name": "request",
-        "Type": "ServeyBasket.Api.Models.Poll",
+        "Type": "ServeyBasket.Models.Poll",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ServeyBasket.Api.Controllers.PollsController",
+    "ContainingType": "ServeyBasket.Controllers.PollsController",
     "Method": "Delete",
     "RelativePath": "api/Polls/{id}",
     "HttpMethod": "DELETE",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "hCqzVI/OWgA=",
+  "dgSpecHash": "KIHUXiAFgSM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\hussi\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\ServeyBasket.Api.csproj",
+  "projectFilePath": "C:\\Users\\hussi\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\ServeyBasket.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hussi\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.3\\microsoft.aspnetcore.openapi.10.0.3.nupkg.sha512",
     "C:\\Users\\hussi\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512",

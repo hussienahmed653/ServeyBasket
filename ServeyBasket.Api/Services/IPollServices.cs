@@ -1,6 +1,6 @@
-﻿using ServeyBasket.Api.Models;
+﻿using ServeyBasket.Models;
 
-namespace ServeyBasket.Api.Services;
+namespace ServeyBasket.Services;
 
 public interface IPollServices
 {

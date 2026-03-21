@@ -1,4 +1,4 @@
-﻿namespace ServeyBasket.Api.Models;
+﻿namespace ServeyBasket.Models;
 
 public class Poll
 {

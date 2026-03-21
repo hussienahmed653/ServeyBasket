@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ServeyBasket.Api.Models;
-using ServeyBasket.Api.Services;
+using ServeyBasket.Models;
+using ServeyBasket.Services;
 
-namespace ServeyBasket.Api.Controllers;
+namespace ServeyBasket.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

@@ -1,4 +1,4 @@
-using ServeyBasket.Api.Services;
+using ServeyBasket.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
