@@ -1,11 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "KIHUXiAFgSM=",
+  "dgSpecHash": "Ntv60J7L4Yo=",
   "success": true,
   "projectFilePath": "C:\\Users\\hussi\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\ServeyBasket.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\hussi\\.nuget\\packages\\fluentvalidation\\12.1.1\\fluentvalidation.12.1.1.nupkg.sha512",
+    "C:\\Users\\hussi\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\12.1.1\\fluentvalidation.dependencyinjectionextensions.12.1.1.nupkg.sha512",
+    "C:\\Users\\hussi\\.nuget\\packages\\mapster\\10.0.5\\mapster.10.0.5.nupkg.sha512",
+    "C:\\Users\\hussi\\.nuget\\packages\\mapster.core\\10.0.5\\mapster.core.10.0.5.nupkg.sha512",
+    "C:\\Users\\hussi\\.nuget\\packages\\mapster.dependencyinjection\\10.0.5\\mapster.dependencyinjection.10.0.5.nupkg.sha512",
     "C:\\Users\\hussi\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.3\\microsoft.aspnetcore.openapi.10.0.3.nupkg.sha512",
     "C:\\Users\\hussi\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512",
+    "C:\\Users\\hussi\\.nuget\\packages\\sharpgrip.fluentvalidation.autovalidation.mvc\\2.0.0\\sharpgrip.fluentvalidation.autovalidation.mvc.2.0.0.nupkg.sha512",
+    "C:\\Users\\hussi\\.nuget\\packages\\sharpgrip.fluentvalidation.autovalidation.shared\\2.0.0\\sharpgrip.fluentvalidation.autovalidation.shared.2.0.0.nupkg.sha512",
     "C:\\Users\\hussi\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\10.1.4\\swashbuckle.aspnetcore.swaggerui.10.1.4.nupkg.sha512"
   ],
   "logs": []

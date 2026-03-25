@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using ServeyBasket.Contracts.Requests;
+using ServeyBasket.Contracts.Respons;
 using ServeyBasket.Models;
 using ServeyBasket.Services;
 
@@ -15,7 +17,10 @@ public class PollsController(IPollServices pollServices) : ControllerBase
     public IActionResult GetAll()
     {
         var polls = _pollServices.GetAll();
-        return Ok(polls);
+        
+        var response = polls.Adapt<IEnumerable<PollResponse>>();
+
+        return Ok(response);
     }
     [HttpGet]
     [Route("{id:int}")]
@@ -24,19 +29,22 @@ public class PollsController(IPollServices pollServices) : ControllerBase
         var poll = _pollServices.Get(id);
         if (poll is null)
             return NotFound();
-        return Ok(poll);
+
+        var response = poll.Adapt<PollResponse>();
+
+        return Ok(response);
     }
     [HttpPost]
-    public IActionResult Add(Poll request)
+    public IActionResult Add(CreatePollRequest request)
     {
-        var newpoll = _pollServices.Add(request);
+        var newpoll = _pollServices.Add(request.Adapt<Poll>());
         return CreatedAtAction(nameof(Get), new { id = newpoll.Id }, newpoll);
     }
     [HttpPut]
     [Route("{id:int}")]
-    public IActionResult Update(int id, Poll request)
+    public IActionResult Update(int id, CreatePollRequest request)
     {
-        var IsUpdates = _pollServices.Update(id, request);
+        var IsUpdates = _pollServices.Update(id, request.Adapt<Poll>());
         if (!IsUpdates)
             return NotFound();
         return NoContent();

@@ -32,17 +32,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Poll"
+                "$ref": "#/components/schemas/CreatePollRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Poll"
+                "$ref": "#/components/schemas/CreatePollRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Poll"
+                "$ref": "#/components/schemas/CreatePollRequest"
               }
             }
           },
@@ -98,17 +98,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Poll"
+                "$ref": "#/components/schemas/CreatePollRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Poll"
+                "$ref": "#/components/schemas/CreatePollRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Poll"
+                "$ref": "#/components/schemas/CreatePollRequest"
               }
             }
           },
@@ -146,17 +146,13 @@
   },
   "components": {
     "schemas": {
-      "Poll": {
+      "CreatePollRequest": {
+        "required": [
+          "title",
+          "description"
+        ],
         "type": "object",
         "properties": {
-          "id": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "integer",
-              "string"
-            ],
-            "format": "int32"
-          },
           "title": {
             "type": "string"
           },

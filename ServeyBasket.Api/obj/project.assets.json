@@ -2,6 +2,68 @@
   "version": 3,
   "targets": {
     "net10.0": {
+      "FluentValidation/12.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/FluentValidation.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/FluentValidation.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "FluentValidation.DependencyInjectionExtensions/12.1.1": {
+        "type": "package",
+        "dependencies": {
+          "FluentValidation": "12.1.1"
+        },
+        "compile": {
+          "lib/net8.0/FluentValidation.DependencyInjectionExtensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/FluentValidation.DependencyInjectionExtensions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Mapster/10.0.5": {
+        "type": "package",
+        "dependencies": {
+          "Mapster.Core": "10.0.5"
+        },
+        "compile": {
+          "lib/net10.0/Mapster.dll": {}
+        },
+        "runtime": {
+          "lib/net10.0/Mapster.dll": {}
+        }
+      },
+      "Mapster.Core/10.0.5": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Mapster.Core.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Mapster.Core.dll": {}
+        }
+      },
+      "Mapster.DependencyInjection/10.0.5": {
+        "type": "package",
+        "dependencies": {
+          "Mapster": "10.0.5"
+        },
+        "compile": {
+          "lib/net10.0/Mapster.DependencyInjection.dll": {}
+        },
+        "runtime": {
+          "lib/net10.0/Mapster.DependencyInjection.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.OpenApi/10.0.3": {
         "type": "package",
         "dependencies": {
@@ -37,6 +99,33 @@
           }
         }
       },
+      "SharpGrip.FluentValidation.AutoValidation.Mvc/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "SharpGrip.FluentValidation.AutoValidation.Shared": "2.0.0"
+        },
+        "compile": {
+          "lib/net10.0/SharpGrip.FluentValidation.AutoValidation.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net10.0/SharpGrip.FluentValidation.AutoValidation.Mvc.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
+      "SharpGrip.FluentValidation.AutoValidation.Shared/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "FluentValidation": "10.0.0"
+        },
+        "compile": {
+          "lib/net10.0/SharpGrip.FluentValidation.AutoValidation.Shared.dll": {}
+        },
+        "runtime": {
+          "lib/net10.0/SharpGrip.FluentValidation.AutoValidation.Shared.dll": {}
+        }
+      },
       "Swashbuckle.AspNetCore.SwaggerUI/10.1.4": {
         "type": "package",
         "compile": {
@@ -56,6 +145,81 @@
     }
   },
   "libraries": {
+    "FluentValidation/12.1.1": {
+      "sha512": "EPpkIe1yh1a0OXyC100oOA8WMbZvqUu5plwhvYcb7oSELfyUZzfxV48BLhvs3kKo4NwG7MGLNgy1RJiYtT8Dpw==",
+      "type": "package",
+      "path": "fluentvalidation/12.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "fluent-validation-icon.png",
+        "fluentvalidation.12.1.1.nupkg.sha512",
+        "fluentvalidation.nuspec",
+        "lib/net8.0/FluentValidation.dll",
+        "lib/net8.0/FluentValidation.xml"
+      ]
+    },
+    "FluentValidation.DependencyInjectionExtensions/12.1.1": {
+      "sha512": "D0VXh4dtjjX2aQizuaa0g6R8X3U1JaVqJPfGCvLwZX9t/O2h7tkpbitbadQMfwcgSPdDbI2vDxuwRMv/Uf9dHA==",
+      "type": "package",
+      "path": "fluentvalidation.dependencyinjectionextensions/12.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "fluent-validation-icon.png",
+        "fluentvalidation.dependencyinjectionextensions.12.1.1.nupkg.sha512",
+        "fluentvalidation.dependencyinjectionextensions.nuspec",
+        "lib/net8.0/FluentValidation.DependencyInjectionExtensions.dll",
+        "lib/net8.0/FluentValidation.DependencyInjectionExtensions.xml"
+      ]
+    },
+    "Mapster/10.0.5": {
+      "sha512": "w54UoylSslokSNk+aBiOg8ieWk6XL5Ob4b/nNWzIcVswNlIDhmUvPdwDsVmdj1Z6Oh+z7jMID5IH+RlZxn4pqA==",
+      "type": "package",
+      "path": "mapster/10.0.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/net10.0/Mapster.dll",
+        "lib/net8.0/Mapster.dll",
+        "lib/net9.0/Mapster.dll",
+        "lib/netstandard2.0/Mapster.dll",
+        "mapster.10.0.5.nupkg.sha512",
+        "mapster.nuspec"
+      ]
+    },
+    "Mapster.Core/10.0.5": {
+      "sha512": "y9DQQYnwhEzbIlIhFX+V5zfT1p6VIGOKL03Ly7zbOHZkSzn42b3YgiAz1ll1lPlir/9CS0raEav1KULitzniIw==",
+      "type": "package",
+      "path": "mapster.core/10.0.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/netstandard2.0/Mapster.Core.dll",
+        "mapster.core.10.0.5.nupkg.sha512",
+        "mapster.core.nuspec"
+      ]
+    },
+    "Mapster.DependencyInjection/10.0.5": {
+      "sha512": "9owmPmDzx/M+ZtrJOfLVosgeE0L0UJS0iugICEZwZ5XGulrkHDE6IbeAOCHJfZBdxeYdaE/cM4y+CNb6VpKTYQ==",
+      "type": "package",
+      "path": "mapster.dependencyinjection/10.0.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/net10.0/Mapster.DependencyInjection.dll",
+        "lib/net8.0/Mapster.DependencyInjection.dll",
+        "lib/net9.0/Mapster.DependencyInjection.dll",
+        "lib/netstandard2.0/Mapster.DependencyInjection.dll",
+        "mapster.dependencyinjection.10.0.5.nupkg.sha512",
+        "mapster.dependencyinjection.nuspec"
+      ]
+    },
     "Microsoft.AspNetCore.OpenApi/10.0.3": {
       "sha512": "SAvSrKDgnY5GDjDAngOXxPhUvEKlTU/0zIq8zidqHvh/xnZBPs0Vc4LqwyvnmnafNnyUaivtRABz4K4wodXfSg==",
       "type": "package",
@@ -92,6 +256,36 @@
         "microsoft.openapi.nuspec"
       ]
     },
+    "SharpGrip.FluentValidation.AutoValidation.Mvc/2.0.0": {
+      "sha512": "QnTKNfcx4JzvMR/+hzqWFaXQgrbDSAU/xB9LVgh2povFQpySHTZH4gknulpNy2Hk6ELPy6YpglkEIS3P4E9IMA==",
+      "type": "package",
+      "path": "sharpgrip.fluentvalidation.autovalidation.mvc/2.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net10.0/SharpGrip.FluentValidation.AutoValidation.Mvc.dll",
+        "lib/net8.0/SharpGrip.FluentValidation.AutoValidation.Mvc.dll",
+        "lib/net9.0/SharpGrip.FluentValidation.AutoValidation.Mvc.dll",
+        "sharpgrip.fluentvalidation.autovalidation.mvc.2.0.0.nupkg.sha512",
+        "sharpgrip.fluentvalidation.autovalidation.mvc.nuspec"
+      ]
+    },
+    "SharpGrip.FluentValidation.AutoValidation.Shared/2.0.0": {
+      "sha512": "0DWoin27wm38K/O0zVS5yeWJld2eg588B+4wJSmVlISrOj3kGwRmWCEXFR8lTNWFnKpXHNOtrIo1vdZnhkhzQg==",
+      "type": "package",
+      "path": "sharpgrip.fluentvalidation.autovalidation.shared/2.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net10.0/SharpGrip.FluentValidation.AutoValidation.Shared.dll",
+        "lib/net8.0/SharpGrip.FluentValidation.AutoValidation.Shared.dll",
+        "lib/net9.0/SharpGrip.FluentValidation.AutoValidation.Shared.dll",
+        "sharpgrip.fluentvalidation.autovalidation.shared.2.0.0.nupkg.sha512",
+        "sharpgrip.fluentvalidation.autovalidation.shared.nuspec"
+      ]
+    },
     "Swashbuckle.AspNetCore.SwaggerUI/10.1.4": {
       "sha512": "A1ewmv/Xq5YkjQoSW29Kc9IoIC6pu210F1Fmzmj1EO7QJLTs6w3tOJatST6s41+Y8eUr5A1JLiXZ14U5EgN6ow==",
       "type": "package",
@@ -116,7 +310,11 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "FluentValidation.DependencyInjectionExtensions >= 12.1.1",
+      "Mapster >= 10.0.5",
+      "Mapster.DependencyInjection >= 10.0.5",
       "Microsoft.AspNetCore.OpenApi >= 10.0.3",
+      "SharpGrip.FluentValidation.AutoValidation.Mvc >= 2.0.0",
       "Swashbuckle.AspNetCore.SwaggerUI >= 10.1.4"
     ]
   },
@@ -146,7 +344,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -165,15 +362,31 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net10.0": {
         "targetAlias": "net10.0",
         "dependencies": {
+          "FluentValidation.DependencyInjectionExtensions": {
+            "target": "Package",
+            "version": "[12.1.1, )"
+          },
+          "Mapster": {
+            "target": "Package",
+            "version": "[10.0.5, )"
+          },
+          "Mapster.DependencyInjection": {
+            "target": "Package",
+            "version": "[10.0.5, )"
+          },
           "Microsoft.AspNetCore.OpenApi": {
             "target": "Package",
             "version": "[10.0.3, )"
+          },
+          "SharpGrip.FluentValidation.AutoValidation.Mvc": {
+            "target": "Package",
+            "version": "[2.0.0, )"
           },
           "Swashbuckle.AspNetCore.SwaggerUI": {
             "target": "Package",
@@ -199,7 +412,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.104/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
