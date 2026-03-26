@@ -1,15 +1,8 @@
-﻿using FluentValidation;
-using Mapster;
-using MapsterMapper;
-using ServeyBasket.Services;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-using System.Reflection;
-
-namespace ServeyBasket;
+﻿namespace ServeyBasket;
 
 public static class DependancyInjection
 {
-    public static IServiceCollection AddDependencies(this IServiceCollection services)
+    public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
     {
         // Add services to the container.
         services.AddControllers();
@@ -18,7 +11,8 @@ public static class DependancyInjection
 
         services
             .AddMappesterServices()
-            .AddFluentValidationServices();
+            .AddFluentValidationServices()
+            .AddDbContext(configuration);
 
         services.AddScoped<IPollServices, PollServices>();
 
@@ -27,8 +21,8 @@ public static class DependancyInjection
     public static IServiceCollection AddFluentValidationServices(this IServiceCollection services)
     {
         services
-            .AddFluentValidationAutoValidation()
-            .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
+            .AddFluentValidationAutoValidation();
 
         return services;
     }
@@ -38,6 +32,16 @@ public static class DependancyInjection
         mapconfig.Scan(Assembly.GetExecutingAssembly());
 
         services.AddSingleton<IMapper>(new Mapper(mapconfig));
+
+        return services;
+    }
+    public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
+    {
+        var connectionString = configuration.GetConnectionString("DefaultConnection") ?? 
+            throw new InvalidOperationException("DataBase 'DefaultConnection' Is Not Found!");
+
+        services.AddDbContext<ServeyBasketDbContext>(options =>
+            options.UseSqlServer(connectionString));
 
         return services;
     }

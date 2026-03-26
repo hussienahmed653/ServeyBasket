@@ -19,7 +19,7 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "ServeyBasket.Contracts.Requests.CreatePollRequest",
+        "Type": "ServeyBasket.Contracts.Requests.PollRequest",
         "IsRequired": true
       }
     ],
@@ -56,7 +56,7 @@
       },
       {
         "Name": "request",
-        "Type": "ServeyBasket.Contracts.Requests.CreatePollRequest",
+        "Type": "ServeyBasket.Contracts.Requests.PollRequest",
         "IsRequired": true
       }
     ],
@@ -67,6 +67,22 @@
     "Method": "Delete",
     "RelativePath": "api/Polls/{id}",
     "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServeyBasket.Controllers.PollsController",
+    "Method": "TogglePublish",
+    "RelativePath": "api/Polls/{id}/togglePublish",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [

@@ -1,13 +1,12 @@
-﻿using ServeyBasket.Models;
-
-namespace ServeyBasket.Services;
+﻿namespace ServeyBasket.Services;
 
 public interface IPollServices
 {
-    IEnumerable<Poll> GetAll();
-    Poll? Get(int id);
-    Poll Add(Poll poll);
-    bool Update(int id, Poll poll);
-    bool Deleted(int id);
+    Task<IEnumerable<Poll>> GetAllAsync();
+    Task<Poll?> GetAsync(int id);
+    Task<Poll> AddAsync(Poll poll);
+    Task<bool> UpdateAsync(int id, Poll poll);
+    Task<bool> DeletedAsync(int id);
+    Task<bool> TogglePublishStatusAsync(int id);
 
 }

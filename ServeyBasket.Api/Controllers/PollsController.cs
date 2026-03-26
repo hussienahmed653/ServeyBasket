@@ -1,11 +1,4 @@
-﻿using Mapster;
-using Microsoft.AspNetCore.Mvc;
-using ServeyBasket.Contracts.Requests;
-using ServeyBasket.Contracts.Respons;
-using ServeyBasket.Models;
-using ServeyBasket.Services;
-
-namespace ServeyBasket.Controllers;
+﻿namespace ServeyBasket.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -14,9 +7,9 @@ public class PollsController(IPollServices pollServices) : ControllerBase
     private readonly IPollServices _pollServices = pollServices;
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        var polls = _pollServices.GetAll();
+        var polls = await _pollServices.GetAllAsync();
         
         var response = polls.Adapt<IEnumerable<PollResponse>>();
 
@@ -24,9 +17,9 @@ public class PollsController(IPollServices pollServices) : ControllerBase
     }
     [HttpGet]
     [Route("{id:int}")]
-    public IActionResult Get(int id)
+    public async Task<IActionResult> Get(int id)
     {
-        var poll = _pollServices.Get(id);
+        var poll = await _pollServices.GetAsync(id);
         if (poll is null)
             return NotFound();
 
@@ -35,16 +28,25 @@ public class PollsController(IPollServices pollServices) : ControllerBase
         return Ok(response);
     }
     [HttpPost]
-    public IActionResult Add(CreatePollRequest request)
+    public async Task<IActionResult> Add(PollRequest request)
     {
-        var newpoll = _pollServices.Add(request.Adapt<Poll>());
+        var newpoll = await _pollServices.AddAsync(request.Adapt<Poll>());
         return CreatedAtAction(nameof(Get), new { id = newpoll.Id }, newpoll);
     }
     [HttpPut]
     [Route("{id:int}")]
-    public IActionResult Update(int id, CreatePollRequest request)
+    public async Task<IActionResult> Update(int id, PollRequest request)
     {
-        var IsUpdates = _pollServices.Update(id, request.Adapt<Poll>());
+        var IsUpdates = await _pollServices.UpdateAsync(id, request.Adapt<Poll>());
+        if (!IsUpdates)
+            return NotFound();
+        return NoContent();
+    }
+    [HttpPut]
+    [Route("{id:int}/togglePublish")]
+    public async Task<IActionResult> TogglePublish(int id)
+    {
+        var IsUpdates = await _pollServices.TogglePublishStatusAsync(id);
         if (!IsUpdates)
             return NotFound();
         return NoContent();
@@ -52,9 +54,9 @@ public class PollsController(IPollServices pollServices) : ControllerBase
 
     [HttpDelete]
     [Route("{id:int}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        var IsDeleted = _pollServices.Deleted(id);
+        var IsDeleted = await _pollServices.DeletedAsync(id);
 
         if (!IsDeleted)
             return NotFound();

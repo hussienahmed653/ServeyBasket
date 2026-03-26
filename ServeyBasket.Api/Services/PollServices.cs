@@ -1,55 +1,63 @@
-﻿using ServeyBasket.Models;
+﻿namespace ServeyBasket.Services;
 
-namespace ServeyBasket.Services;
-
-public class PollServices : IPollServices
+public class PollServices(ServeyBasketDbContext context) : IPollServices
 {
-    private static readonly List<Poll> _polls = 
-        [
-            new Poll
-            {
-                Id = 1,
-                Title = "Hussien",
-                Description = "SoftwareDeveloper"
-            }
-        ];
+    private readonly ServeyBasketDbContext _context = context;
 
-    public Poll Add(Poll poll)
+    public async Task<Poll> AddAsync(Poll poll)
     {
-        poll.Id = _polls.Max(i => i.Id) + 1;
-        _polls.Add(poll);
+        poll.Id = await _context.Polls.AsNoTracking().AnyAsync() ? await _context.Polls.AsNoTracking().MaxAsync(i => i.Id) + 1 : 1;
+        await _context.Polls.AddAsync(poll);
+        await _context.SaveChangesAsync();
         return poll;
     }
 
-    public bool Deleted(int id)
+    public async Task<bool> DeletedAsync(int id)
     {
-        var getpoll = Get(id);
+        var getpoll = await GetAsync(id);
         if (getpoll is null)
             return false;
 
-        _polls.Remove(getpoll);
+        _context.Polls.Remove(getpoll);
+        await _context.SaveChangesAsync();
 
         return true;
     }
 
-    public Poll? Get(int id)
-    {
-        return _polls.SingleOrDefault(p => p.Id == id);
-    }
+    public async Task<Poll?> GetAsync(int id) =>
+        await _context.Polls.SingleOrDefaultAsync(p => p.Id == id);
 
-    public IEnumerable<Poll> GetAll()
-    {
-        return _polls;
-    }
+    public async Task<IEnumerable<Poll>> GetAllAsync() =>
+        await _context.Polls
+            .AsNoTracking()
+            .ToListAsync();
 
-    public bool Update(int id, Poll poll)
+    public async Task<bool> UpdateAsync(int id, Poll poll)
     {
-        var getpoll = Get(id);
+        var getpoll = await GetAsync(id);
         if (getpoll is null)
             return false;
 
         getpoll.Title = poll.Title;
-        getpoll.Description = poll.Description;
+        getpoll.Summary = poll.Summary;
+        getpoll.StartsAt = poll.StartsAt;
+        getpoll.EndsAt = poll.EndsAt;
+
+
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
+
+    public async Task<bool> TogglePublishStatusAsync(int id)
+    {
+        var poll = await GetAsync(id);
+        if (poll is null)
+            return false;
+
+        poll.IsPublished = !poll.IsPublished;
+
+        await _context.SaveChangesAsync();
 
         return true;
     }

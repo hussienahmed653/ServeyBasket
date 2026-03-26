@@ -56,15 +56,29 @@
             },
             "Mapster": {
               "target": "Package",
-              "version": "[10.0.5, )"
+              "version": "[10.0.6, )"
             },
             "Mapster.DependencyInjection": {
               "target": "Package",
-              "version": "[10.0.5, )"
+              "version": "[10.0.6, )"
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[10.0.3, )"
+              "version": "[10.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[10.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[10.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[10.0.5, )"
             },
             "SharpGrip.FluentValidation.AutoValidation.Mvc": {
               "target": "Package",
@@ -72,7 +86,7 @@
             },
             "Swashbuckle.AspNetCore.SwaggerUI": {
               "target": "Package",
-              "version": "[10.1.4, )"
+              "version": "[10.1.7, )"
             }
           },
           "imports": [

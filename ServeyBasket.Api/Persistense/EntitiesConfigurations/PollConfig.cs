@@ -1,0 +1,19 @@
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace ServeyBasket.Persistense.EntitiesConfigurations;
+
+public class PollConfig : IEntityTypeConfiguration<Poll>
+{
+    public void Configure(EntityTypeBuilder<Poll> builder)
+    {
+        builder.Property(x => x.Id)
+            .ValueGeneratedNever();
+
+        builder.HasIndex(x => x.Title).IsUnique();
+        builder.Property(x => x.Title)
+            .HasMaxLength(100);
+
+        builder.Property(x => x.Summary)
+            .HasMaxLength(1500);
+    }
+}
