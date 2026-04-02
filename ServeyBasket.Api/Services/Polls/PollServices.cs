@@ -1,4 +1,4 @@
-﻿namespace ServeyBasket.Services;
+﻿namespace ServeyBasket.Services.Polls;
 
 public class PollServices(ServeyBasketDbContext context) : IPollServices
 {

@@ -1,4 +1,4 @@
-﻿namespace ServeyBasket.Contracts.Requests;
+﻿namespace ServeyBasket.Contracts.Polls;
 
 public record PollRequest
 (

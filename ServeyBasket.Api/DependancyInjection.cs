@@ -1,4 +1,7 @@
-﻿namespace ServeyBasket;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using ServeyBasket.Authentication;
+
+namespace ServeyBasket;
 
 public static class DependancyInjection
 {
@@ -12,13 +15,15 @@ public static class DependancyInjection
         services
             .AddMappesterServices()
             .AddFluentValidationServices()
+            .AddAuthenticationServices()
             .AddDbContext(configuration);
 
+        services.AddScoped<IAuthServices, AuthServices>();
         services.AddScoped<IPollServices, PollServices>();
 
         return services;
     }
-    public static IServiceCollection AddFluentValidationServices(this IServiceCollection services)
+    private static IServiceCollection AddFluentValidationServices(this IServiceCollection services)
     {
         services
             .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
@@ -26,7 +31,7 @@ public static class DependancyInjection
 
         return services;
     }
-    public static IServiceCollection AddMappesterServices(this IServiceCollection services)
+    private static IServiceCollection AddMappesterServices(this IServiceCollection services)
     {
         var mapconfig = TypeAdapterConfig.GlobalSettings;
         mapconfig.Scan(Assembly.GetExecutingAssembly());
@@ -35,7 +40,7 @@ public static class DependancyInjection
 
         return services;
     }
-    public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection") ?? 
             throw new InvalidOperationException("DataBase 'DefaultConnection' Is Not Found!");
@@ -44,5 +49,32 @@ public static class DependancyInjection
             options.UseSqlServer(connectionString));
 
         return services;
+    }
+    private static IServiceCollection AddAuthenticationServices(this IServiceCollection services)
+    {
+        services.AddSingleton<IJwtProvider, JwtProvider>();
+
+        services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<ServeyBasketDbContext>();
+
+
+        services.AddAuthentication(option =>
+        {
+            option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidIssuer = "ServeyBasket",
+                    ValidAudience = "ServeyBasket users",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("tPMfjVPI2x0U5oRlfdPXhPqIEhhaTWmV"))
+                };
+            });
+            return services;
     }
 }

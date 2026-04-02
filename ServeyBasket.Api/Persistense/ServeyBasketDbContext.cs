@@ -1,6 +1,7 @@
 ﻿namespace ServeyBasket.Persistense;
 
-public class ServeyBasketDbContext(DbContextOptions<ServeyBasketDbContext> options) : DbContext(options)
+public class ServeyBasketDbContext(DbContextOptions<ServeyBasketDbContext> options) 
+    : IdentityDbContext<ApplicationUser>(options)
 {
     public DbSet<Poll> Polls { get; set; }
 

@@ -1,8 +1,8 @@
-﻿namespace ServeyBasket.Contracts.Validations;
+﻿namespace ServeyBasket.Contracts.Polls;
 
-public class PollRequestValidator : AbstractValidator<PollRequest>
+public class AuthRequestValidator : AbstractValidator<PollRequest>
 {
-    public PollRequestValidator()
+    public AuthRequestValidator()
     {
         RuleFor(x => x.Title)
             .NotEmpty()

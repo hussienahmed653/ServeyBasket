@@ -1,4 +1,7 @@
-﻿namespace ServeyBasket.Controllers;
+﻿using ServeyBasket.Contracts.Polls;
+using ServeyBasket.Services.Polls;
+
+namespace ServeyBasket.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
