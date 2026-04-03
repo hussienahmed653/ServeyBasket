@@ -1,8 +1,12 @@
 ﻿
+using Microsoft.Extensions.Options;
+
 namespace ServeyBasket.Authentication;
 
-public class JwtProvider : IJwtProvider
+public class JwtProvider(IOptions<JwtOptions> options) : IJwtProvider
 {
+    private readonly JwtOptions _options = options.Value;
+
     public (string token, int expiresIn) GenerateToken(ApplicationUser user)
     {
         Claim[] claims =
@@ -14,20 +18,18 @@ public class JwtProvider : IJwtProvider
             new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         ];
 
-        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("tPMfjVPI2x0U5oRlfdPXhPqIEhhaTWmV"));
+        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Key));
 
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
-        var expiresIn = 30; // Token expires in 30 minutes
-
         var token = new JwtSecurityToken(
-            issuer: "ServeyBasket",
-            audience: "ServeyBasket users",
+            issuer: _options.Issuer,
+            audience: _options.Audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(expiresIn),
+            expires: DateTime.UtcNow.AddMinutes(_options.ExpireMinutes),
             signingCredentials: signingCredentials
         );
 
-        return (token: new JwtSecurityTokenHandler().WriteToken(token), expiresIn: 30 * 60);
+        return (token: new JwtSecurityTokenHandler().WriteToken(token), expiresIn: _options.ExpireMinutes * 60);
     }
 }

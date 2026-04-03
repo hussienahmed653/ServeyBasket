@@ -15,7 +15,7 @@ public static class DependancyInjection
         services
             .AddMappesterServices()
             .AddFluentValidationServices()
-            .AddAuthenticationServices()
+            .AddAuthenticationServices(configuration)
             .AddDbContext(configuration);
 
         services.AddScoped<IAuthServices, AuthServices>();
@@ -50,9 +50,16 @@ public static class DependancyInjection
 
         return services;
     }
-    private static IServiceCollection AddAuthenticationServices(this IServiceCollection services)
+    private static IServiceCollection AddAuthenticationServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<IJwtProvider, JwtProvider>();
+
+        //services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
+        services.AddOptions<JwtOptions>()
+            .Bind(configuration.GetSection(JwtOptions.SectionName))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+        var jwtOptions = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
 
         services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ServeyBasketDbContext>();
@@ -70,9 +77,9 @@ public static class DependancyInjection
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidIssuer = "ServeyBasket",
-                    ValidAudience = "ServeyBasket users",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("tPMfjVPI2x0U5oRlfdPXhPqIEhhaTWmV"))
+                    ValidIssuer = jwtOptions?.Issuer,
+                    ValidAudience = jwtOptions?.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions?.Key!))
                 };
             });
             return services;
