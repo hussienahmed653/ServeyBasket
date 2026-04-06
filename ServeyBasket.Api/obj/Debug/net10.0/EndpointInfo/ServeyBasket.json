@@ -45,6 +45,38 @@
         }
       }
     },
+    "/Auth/refresh": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Polls": {
       "get": {
         "tags": [
@@ -221,7 +253,6 @@
         "required": [
           "title",
           "summary",
-          "isPublished",
           "startsAt",
           "endsAt"
         ],
@@ -233,9 +264,6 @@
           "summary": {
             "type": "string"
           },
-          "isPublished": {
-            "type": "boolean"
-          },
           "startsAt": {
             "type": "string",
             "format": "date"
@@ -243,6 +271,27 @@
           "endsAt": {
             "type": "string",
             "format": "date"
+          }
+        }
+      },
+      "RefreshTokenRequest": {
+        "required": [
+          "token",
+          "refreshToken"
+        ],
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "refreshToken": {
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       }

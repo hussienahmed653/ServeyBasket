@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Extensions.Options;
+using System.Security.Cryptography;
 
 namespace ServeyBasket.Authentication;
 
@@ -31,5 +32,30 @@ public class JwtProvider(IOptions<JwtOptions> options) : IJwtProvider
         );
 
         return (token: new JwtSecurityTokenHandler().WriteToken(token), expiresIn: _options.ExpireMinutes * 60);
+    }
+
+    public string? ValidateToken(string token)
+    {
+        var tokenhandler = new JwtSecurityTokenHandler();
+        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Key));
+        try
+        {
+
+            tokenhandler.ValidateToken(token, new TokenValidationParameters
+            {
+                IssuerSigningKey = symmetricSecurityKey,
+                ValidateIssuerSigningKey = true,
+                ValidateAudience = false,
+                ValidateIssuer = false,
+            }, out SecurityToken validatedToken);
+
+            var jwtsecuritytoken = validatedToken as JwtSecurityToken;
+            return jwtsecuritytoken!.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value;
+            
+        }
+        catch
+        {
+            return null;
+        }
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace ServeyBasket.Contracts.Auth;
 
-public class AuthRequestValidator : AbstractValidator<AuthRequest>
+public class RefreshTokenValidator : AbstractValidator<AuthRequest>
 {
-    public AuthRequestValidator()
+    public RefreshTokenValidator()
     {
         RuleFor(x => x.Email)
             .NotEmpty()

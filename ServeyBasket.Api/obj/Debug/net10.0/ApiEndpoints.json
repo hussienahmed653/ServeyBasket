@@ -109,5 +109,21 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServeyBasket.Controllers.AuthController",
+    "Method": "GetRefreshToken",
+    "RelativePath": "Auth/refresh",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ServeyBasket.Contracts.RefreshToken.RefreshTokenRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
