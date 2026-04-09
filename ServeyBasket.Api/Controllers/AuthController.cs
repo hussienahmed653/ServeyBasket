@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ServeyBasket.Contracts.Auth;
 using ServeyBasket.Contracts.RefreshToken;
+using System.ComponentModel.DataAnnotations;
 
 namespace ServeyBasket.Controllers;
 

@@ -1,10 +1,12 @@
-﻿using ServeyBasket.Contracts.Polls;
+﻿using Microsoft.AspNetCore.Authorization;
+using ServeyBasket.Contracts.Polls;
 using ServeyBasket.Services.Polls;
 
 namespace ServeyBasket.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class PollsController(IPollServices pollServices) : ControllerBase
 {
     private readonly IPollServices _pollServices = pollServices;
@@ -34,7 +36,7 @@ public class PollsController(IPollServices pollServices) : ControllerBase
     public async Task<IActionResult> Add(PollRequest request)
     {
         var newpoll = await _pollServices.AddAsync(request.Adapt<Poll>());
-        return CreatedAtAction(nameof(Get), new { id = newpoll.Id }, newpoll);
+        return CreatedAtAction(nameof(Get), new { id = newpoll.Id }, newpoll.Adapt<PollResponse>());
     }
     [HttpPut]
     [Route("{id:int}")]
