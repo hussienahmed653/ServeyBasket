@@ -18,6 +18,15 @@ public static class DependancyInjection
             .AddAuthenticationServices(configuration)
             .AddDbContext(configuration);
 
+        services.AddCors(options => 
+            options.AddDefaultPolicy(builder => 
+                builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+            )
+        );
+
         services.AddScoped<IAuthServices, AuthServices>();
         services.AddScoped<IPollServices, PollServices>();
 
