@@ -1,9 +1,4 @@
-﻿using ServeyBasket.Authentication;
-using ServeyBasket.Contracts.Auth;
-using ServeyBasket.Contracts.RefreshToken;
-using System.Security.Cryptography;
-
-namespace ServeyBasket.Services.Authentications;
+﻿namespace ServeyBasket.Services.Authentications;
 
 public class AuthServices(UserManager<ApplicationUser> userManager,
     IJwtProvider jwtProvider) : IAuthServices
@@ -12,22 +7,17 @@ public class AuthServices(UserManager<ApplicationUser> userManager,
     private readonly IJwtProvider _jwtProvider = jwtProvider;
     private readonly DateTime _refreshTokenValidityDate = DateTime.UtcNow.AddDays(7);
 
-    public async Task<AuthResponse?> GetTokenAsync(AuthRequest request)
+    public async Task<Result<AuthResponse>> GetTokenAsync(AuthRequest request)
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
 
-        if (user == null) return null;
+        if (user == null) 
+            return Result.Failuer<AuthResponse>(UserErrors.InvalidCredentials);
 
         var isValidPassword = await _userManager.CheckPasswordAsync(user, request.Password);
 
-        if (!isValidPassword) return null;
-        //var user = new ApplicationUser
-        //{
-        //    Id = Guid.NewGuid().ToString(),
-        //    Email = request.Email,
-        //    FirstName = "John",
-        //    LastName = "Doe"
-        //};
+        if (!isValidPassword)
+            return Result.Failuer<AuthResponse>(UserErrors.InvalidCredentials);
 
         var (token, expiresIn) = _jwtProvider.GenerateToken(user);
         var refreshToken = GenerateRefreshToken();
@@ -38,32 +28,27 @@ public class AuthServices(UserManager<ApplicationUser> userManager,
             ExpiresOn = _refreshTokenValidityDate
         });
         await _userManager.UpdateAsync(user);
-
-        return new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName, token, expiresIn, refreshToken, _refreshTokenValidityDate);
+        var response = new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName, token, expiresIn, refreshToken, _refreshTokenValidityDate);
+        return Result.Success(response);
     }
-    public async Task<RefreshTokenRequest?> GetRefreshTokenAsync(RefreshTokenRequest request)
+    public async Task<Result<RefreshTokenRequest>> GetRefreshTokenAsync(RefreshTokenRequest request)
     {
         var tokenId = _jwtProvider.ValidateToken(request.Token!);
-        if (tokenId == null)
-            return null;
 
-        //var user = new ApplicationUser
-        //{
-        //    Id = Guid.NewGuid().ToString(),
-        //    Email = "request.Email",
-        //    FirstName = "John",
-        //    LastName = "Doe"
-        //};
+        if (tokenId == null)
+            return Result.Failuer<RefreshTokenRequest>(UserErrors.InvalidToken);
 
         var user = await _userManager.FindByIdAsync(tokenId);
 
         if (user == null)
-            return null;
+            return Result.Failuer<RefreshTokenRequest>(UserErrors.InvalidToken);
 
-        var refreshTokenId = user!.RefreshTokens.FirstOrDefault(x => x.Token == request.RefreshToken);
+        var refreshToken = user!.RefreshTokens.SingleOrDefault(x => (x.Token == request.RefreshToken) && (x.RevokedOn is null));
 
-        if (!tokenId.Equals(refreshTokenId))
-            return null;
+        if (refreshToken is null)
+            return Result.Failuer<RefreshTokenRequest>(UserErrors.InvalidRefreshToken);
+
+        refreshToken.RevokedOn = DateTime.UtcNow;
 
         var newToken = _jwtProvider.GenerateToken(user);
         var newRefreshToken = GenerateRefreshToken();
@@ -74,7 +59,9 @@ public class AuthServices(UserManager<ApplicationUser> userManager,
             Token = newRefreshToken,
             ExpiresOn = _refreshTokenValidityDate
         });
-        return new RefreshTokenRequest(newToken.token, newRefreshToken);
+
+        await _userManager.UpdateAsync(user);
+        return Result.Success(new RefreshTokenRequest(newToken.token, newRefreshToken));
     }
     private string GenerateRefreshToken()
     {

@@ -17,16 +17,20 @@ public class AuthController(IAuthServices authServices) : ControllerBase
     {
         var authResponse = await _authServices.GetTokenAsync(request);
 
-        return authResponse is not null
-            ? Ok(authResponse)
-            : BadRequest("Invalid Email/Password");
+        return authResponse.IsSuccess
+            ? Ok(authResponse.Value)
+            : Problem(statusCode: StatusCodes.Status400BadRequest,
+                        title: authResponse.Error.Code,
+                        detail: authResponse.Error.Description);
     }
     [HttpPost("refresh")]
     public async Task<IActionResult> GetRefreshToken(RefreshTokenRequest request)
     {
         var refreshTokenResponse = await _authServices.GetRefreshTokenAsync(request);
-        return refreshTokenResponse is not null
-            ? Ok(refreshTokenResponse)
-            : BadRequest("Invalid Token/RefreshToken");
+        return refreshTokenResponse.IsSuccess
+            ? Ok(refreshTokenResponse.Value)
+            : Problem(statusCode: StatusCodes.Status400BadRequest,
+                title: refreshTokenResponse.Error.Code,
+                detail: refreshTokenResponse.Error.Description);
     }
 }

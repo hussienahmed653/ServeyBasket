@@ -1,10 +1,7 @@
-﻿using ServeyBasket.Contracts.Auth;
-using ServeyBasket.Contracts.RefreshToken;
-
-namespace ServeyBasket.Services.Authentications;
+﻿namespace ServeyBasket.Services.Authentications;
 
 public interface IAuthServices
 {
-    Task<AuthResponse?> GetTokenAsync(AuthRequest request);
-    Task<RefreshTokenRequest?> GetRefreshTokenAsync(RefreshTokenRequest request);
+    Task<Result<AuthResponse>> GetTokenAsync(AuthRequest request);
+    Task<Result<RefreshTokenRequest>> GetRefreshTokenAsync(RefreshTokenRequest request);
 }

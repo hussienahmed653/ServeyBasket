@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using ServeyBasket.Contracts.Polls;
-using ServeyBasket.Services.Polls;
 
 namespace ServeyBasket.Controllers;
 

@@ -17,4 +17,10 @@ global using Microsoft.IdentityModel.Tokens;
 global using System.IdentityModel.Tokens.Jwt;
 global using System.Security.Claims;
 global using System.Text;
+global using ServeyBasket.Abstractions;
+global using ServeyBasket.Authentication;
+global using ServeyBasket.Contracts.Auth;
+global using ServeyBasket.Contracts.RefreshToken;
+global using System.Security.Cryptography;
+global using ServeyBasket.Errors;
 
