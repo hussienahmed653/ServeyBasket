@@ -4,39 +4,52 @@ public class PollServices(ServeyBasketDbContext context) : IPollServices
 {
     private readonly ServeyBasketDbContext _context = context;
 
-    public async Task<Poll> AddAsync(Poll poll)
+    public async Task<PollResponse> AddAsync(PollRequest pollreq)
     {
-        poll.Id = await _context.Polls.AsNoTracking().AnyAsync() ? await _context.Polls.AsNoTracking().MaxAsync(i => i.Id) + 1 : 1;
+        var Id = await _context.Polls.AsNoTracking().AnyAsync() ? await _context.Polls.AsNoTracking().MaxAsync(i => i.Id) + 1: 1;
+        var poll = pollreq.Adapt<Poll>();
+        poll.Id = Id;
         await _context.Polls.AddAsync(poll);
         await _context.SaveChangesAsync();
-        return poll;
+        return poll.Adapt<PollResponse>();
     }
 
-    public async Task<bool> DeletedAsync(int id)
+    public async Task<Result> DeletedAsync(int id)
     {
-        var getpoll = await GetAsync(id);
+        var getpoll = await _context.Polls.FindAsync(id);
         if (getpoll is null)
-            return false;
+            return Result.Failuer(PollErrors.PollNotFound);
 
         _context.Polls.Remove(getpoll);
         await _context.SaveChangesAsync();
 
-        return true;
+        return Result.Success();
     }
 
-    public async Task<Poll?> GetAsync(int id) =>
-        await _context.Polls.SingleOrDefaultAsync(p => p.Id == id);
+    public async Task<Result<PollResponse>> GetAsync(int id)
+    {
+        var poll = await _context.Polls.FindAsync(id);
+        if (poll is null)
+            return Result.Failuer<PollResponse>(PollErrors.PollNotFound);
 
-    public async Task<IEnumerable<Poll>> GetAllAsync() =>
-        await _context.Polls
+        return Result.Success(poll.Adapt<PollResponse>());
+    }
+    public async Task<Result<IEnumerable<PollResponse>>> GetAllAsync()
+    {
+        var polls = await _context.Polls
             .AsNoTracking()
             .ToListAsync();
+        if (polls is null)
+            return Result.Failuer<IEnumerable<PollResponse>>(PollErrors.PollNotFound);
 
-    public async Task<bool> UpdateAsync(int id, Poll poll)
+        return Result.Success(polls.Adapt<IEnumerable<PollResponse>>());
+    }
+
+    public async Task<Result> UpdateAsync(int id, PollRequest poll)
     {
-        var getpoll = await GetAsync(id);
+        var getpoll = await _context.Polls.FindAsync(id);
         if (getpoll is null)
-            return false;
+            return Result.Failuer(PollErrors.PollNotFound);
 
         getpoll.Title = poll.Title;
         getpoll.Summary = poll.Summary;
@@ -46,19 +59,19 @@ public class PollServices(ServeyBasketDbContext context) : IPollServices
 
         await _context.SaveChangesAsync();
 
-        return true;
+        return Result.Success();
     }
 
-    public async Task<bool> TogglePublishStatusAsync(int id)
+    public async Task<Result> TogglePublishStatusAsync(int id)
     {
-        var poll = await GetAsync(id);
+        var poll = await _context.Polls.FindAsync(id);
         if (poll is null)
-            return false;
+            return Result.Failuer(PollErrors.PollNotFound);
 
         poll.IsPublished = !poll.IsPublished;
 
         await _context.SaveChangesAsync();
 
-        return true;
+        return Result.Success();
     }
 }

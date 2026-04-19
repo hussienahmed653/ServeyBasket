@@ -2,11 +2,11 @@
 
 public interface IPollServices
 {
-    Task<IEnumerable<Poll>> GetAllAsync();
-    Task<Poll?> GetAsync(int id);
-    Task<Poll> AddAsync(Poll poll);
-    Task<bool> UpdateAsync(int id, Poll poll);
-    Task<bool> DeletedAsync(int id);
-    Task<bool> TogglePublishStatusAsync(int id);
+    Task<Result<IEnumerable<PollResponse>>> GetAllAsync();
+    Task<Result<PollResponse>> GetAsync(int id);
+    Task<PollResponse> AddAsync(PollRequest poll);
+    Task<Result> UpdateAsync(int id, PollRequest poll);
+    Task<Result> DeletedAsync(int id);
+    Task<Result> TogglePublishStatusAsync(int id);
 
 }
