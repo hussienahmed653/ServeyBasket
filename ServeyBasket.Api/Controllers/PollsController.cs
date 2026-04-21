@@ -30,8 +30,11 @@ public class PollsController(IPollServices pollServices) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Add(PollRequest request)
     {
-        var newpoll = await _pollServices.AddAsync(request);
-        return CreatedAtAction(nameof(Get), new { id = newpoll.Id }, newpoll);
+        var result = await _pollServices.AddAsync(request);
+
+        return result.IsSuccess
+            ? CreatedAtAction(nameof(Get), new { id = result.Value!.Id }, result.Value)
+            : result.ToProblem();
     }
     [HttpPut]
     [Route("{id:int}")]

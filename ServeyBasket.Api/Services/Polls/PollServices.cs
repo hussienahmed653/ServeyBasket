@@ -4,14 +4,20 @@ public class PollServices(ServeyBasketDbContext context) : IPollServices
 {
     private readonly ServeyBasketDbContext _context = context;
 
-    public async Task<PollResponse> AddAsync(PollRequest pollreq)
+    public async Task<Result<PollResponse>> AddAsync(PollRequest pollreq)
     {
+        var isExisting = await _context.Polls.AsNoTracking().AnyAsync(p => p.Title == pollreq.Title);
+        if (isExisting)
+            return Result.Failuer<PollResponse>(PollErrors.DublicatedPollTitle);
+
         var Id = await _context.Polls.AsNoTracking().AnyAsync() ? await _context.Polls.AsNoTracking().MaxAsync(i => i.Id) + 1: 1;
         var poll = pollreq.Adapt<Poll>();
         poll.Id = Id;
+
         await _context.Polls.AddAsync(poll);
         await _context.SaveChangesAsync();
-        return poll.Adapt<PollResponse>();
+
+        return Result.Success(poll.Adapt<PollResponse>());
     }
 
     public async Task<Result> DeletedAsync(int id)
@@ -45,16 +51,20 @@ public class PollServices(ServeyBasketDbContext context) : IPollServices
         return Result.Success(polls.Adapt<IEnumerable<PollResponse>>());
     }
 
-    public async Task<Result> UpdateAsync(int id, PollRequest poll)
+    public async Task<Result> UpdateAsync(int id, PollRequest request)
     {
+        var isExisting = await _context.Polls.AsNoTracking().AnyAsync(p => p.Title == request.Title && p.Id != id);
+        if (isExisting)
+            return Result.Failuer<PollResponse>(PollErrors.DublicatedPollTitle);
+
         var getpoll = await _context.Polls.FindAsync(id);
         if (getpoll is null)
             return Result.Failuer(PollErrors.PollNotFound);
 
-        getpoll.Title = poll.Title;
-        getpoll.Summary = poll.Summary;
-        getpoll.StartsAt = poll.StartsAt;
-        getpoll.EndsAt = poll.EndsAt;
+        getpoll.Title = request.Title;
+        getpoll.Summary = request.Summary;
+        getpoll.StartsAt = request.StartsAt;
+        getpoll.EndsAt = request.EndsAt;
 
 
         await _context.SaveChangesAsync();

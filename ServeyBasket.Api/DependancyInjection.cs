@@ -30,6 +30,9 @@ public static class DependancyInjection
         services.AddScoped<IAuthServices, AuthServices>();
         services.AddScoped<IPollServices, PollServices>();
 
+        services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddProblemDetails();
+
         return services;
     }
     private static IServiceCollection AddFluentValidationServices(this IServiceCollection services)
