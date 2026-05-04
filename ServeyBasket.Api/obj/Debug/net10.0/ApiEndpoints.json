@@ -95,6 +95,43 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ServeyBasket.Controllers.QuestionsController",
+    "Method": "Get",
+    "RelativePath": "api/polls/{pollId}/Questions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pollId",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServeyBasket.Controllers.QuestionsController",
+    "Method": "Add",
+    "RelativePath": "api/polls/{pollId}/Questions",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pollId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "ServeyBasket.Contracts.Questions.QuestionRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ServeyBasket.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "Auth",

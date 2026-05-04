@@ -6,9 +6,6 @@ public class PollConfig : IEntityTypeConfiguration<Poll>
 {
     public void Configure(EntityTypeBuilder<Poll> builder)
     {
-        builder.Property(x => x.Id)
-            .ValueGeneratedNever();
-
         builder.HasIndex(x => x.Title).IsUnique();
         builder.Property(x => x.Title)
             .HasMaxLength(100);

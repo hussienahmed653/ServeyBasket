@@ -23,4 +23,6 @@ global using ServeyBasket.Contracts.Auth;
 global using ServeyBasket.Contracts.RefreshToken;
 global using System.Security.Cryptography;
 global using ServeyBasket.Errors;
+global using ServeyBasket.Services.Questions;
+global using Microsoft.AspNetCore.Authorization;
 

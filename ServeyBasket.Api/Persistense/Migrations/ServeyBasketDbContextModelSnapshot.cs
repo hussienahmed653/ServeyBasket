@@ -158,9 +158,12 @@ namespace ServeyBasket.Persistense.Migrations
             modelBuilder.Entity("ServeyBasket.Entities.Answer", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Contant")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -173,7 +176,7 @@ namespace ServeyBasket.Persistense.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuestionsId", "Contant")
+                    b.HasIndex("QuestionsId", "Content")
                         .IsUnique();
 
                     b.ToTable("Answers");
@@ -257,7 +260,10 @@ namespace ServeyBasket.Persistense.Migrations
             modelBuilder.Entity("ServeyBasket.Entities.Poll", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CreatedById")
                         .IsRequired()
@@ -306,9 +312,12 @@ namespace ServeyBasket.Persistense.Migrations
             modelBuilder.Entity("ServeyBasket.Entities.Question", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Contant")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
@@ -338,7 +347,7 @@ namespace ServeyBasket.Persistense.Migrations
 
                     b.HasIndex("UpdatedById");
 
-                    b.HasIndex("PollId", "Contant")
+                    b.HasIndex("PollId", "Content")
                         .IsUnique();
 
                     b.ToTable("Questions");

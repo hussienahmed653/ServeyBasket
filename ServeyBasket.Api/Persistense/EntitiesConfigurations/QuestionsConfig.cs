@@ -6,11 +6,8 @@ public class QuestionsConfig : IEntityTypeConfiguration<Question>
 {
     public void Configure(EntityTypeBuilder<Question> builder)
     {
-        builder.Property(x => x.Id)
-            .ValueGeneratedNever();
-
-        builder.HasIndex(x => new { x.PollId, x.Contant }).IsUnique();
-        builder.Property(x => x.Contant)
+        builder.HasIndex(x => new { x.PollId, x.Content }).IsUnique();
+        builder.Property(x => x.Content)
             .HasMaxLength(1000);
     }
 }

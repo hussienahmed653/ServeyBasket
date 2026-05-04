@@ -10,9 +10,9 @@ public class PollServices(ServeyBasketDbContext context) : IPollServices
         if (isExisting)
             return Result.Failuer<PollResponse>(PollErrors.DublicatedPollTitle);
 
-        var Id = await _context.Polls.AsNoTracking().AnyAsync() ? await _context.Polls.AsNoTracking().MaxAsync(i => i.Id) + 1: 1;
+        //var Id = await _context.Polls.AsNoTracking().AnyAsync() ? await _context.Polls.AsNoTracking().MaxAsync(i => i.Id) + 1: 1;
         var poll = pollreq.Adapt<Poll>();
-        poll.Id = Id;
+        //poll.Id = Id;
 
         await _context.Polls.AddAsync(poll);
         await _context.SaveChangesAsync();
