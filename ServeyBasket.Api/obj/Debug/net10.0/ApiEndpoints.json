@@ -96,7 +96,7 @@
   },
   {
     "ContainingType": "ServeyBasket.Controllers.QuestionsController",
-    "Method": "Get",
+    "Method": "GetAll",
     "RelativePath": "api/polls/{pollId}/Questions",
     "HttpMethod": "GET",
     "IsController": true,
@@ -104,7 +104,7 @@
     "Parameters": [
       {
         "Name": "pollId",
-        "Type": "",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
@@ -126,6 +126,27 @@
       {
         "Name": "request",
         "Type": "ServeyBasket.Contracts.Questions.QuestionRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServeyBasket.Controllers.QuestionsController",
+    "Method": "Get",
+    "RelativePath": "api/polls/{pollId}/Questions/{questionId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pollId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "questionId",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],

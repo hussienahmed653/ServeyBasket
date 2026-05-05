@@ -8,10 +8,21 @@ namespace ServeyBasket.Controllers;
 public class QuestionsController(IQuestionServices questionServices) : ControllerBase
 {
     private readonly IQuestionServices _questionServices = questionServices;
-    [HttpGet("")]
-    public async Task<IActionResult> Get()
+    [HttpGet]
+    public async Task<IActionResult> GetAll([FromRoute] int pollId)
     {
-        return Ok();
+        var result = await _questionServices.GetAll(pollId);
+        return result.IsSuccess 
+            ? Ok(result.Value) 
+            : result.ToProblem();
+    }
+    [HttpGet("{questionId}")]
+    public async Task<IActionResult> Get([FromRoute] int pollId, [FromRoute] int questionId)
+    {
+        var result = await _questionServices.Get(pollId, questionId);
+        return result.IsSuccess 
+            ? Ok(result.Value) 
+            : result.ToProblem();
     }
     [HttpPost("")]
     public async Task<IActionResult> Add([FromRoute] int pollId, [FromBody] QuestionRequest request)

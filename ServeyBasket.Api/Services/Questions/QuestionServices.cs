@@ -1,4 +1,5 @@
-﻿using ServeyBasket.Contracts.Questions;
+﻿using ServeyBasket.Contracts.Answers;
+using ServeyBasket.Contracts.Questions;
 using ServeyBasket.Services.Answers;
 
 namespace ServeyBasket.Services.Questions;
@@ -7,6 +8,41 @@ public class QuestionServices(ServeyBasketDbContext dbContext) : IQuestionServic
 {
     private readonly ServeyBasketDbContext _dbContext = dbContext;
 
+    public async Task<Result<IEnumerable<QuestionResponse>>> GetAll(int pollId)
+    {
+        var pollIsExist = await _dbContext.Polls.AnyAsync(p => p.Id == pollId);
+
+        if (!pollIsExist)
+            return Result.Failuer<IEnumerable<QuestionResponse>> (PollErrors.PollNotFound);
+
+        var questions = await _dbContext.Questions
+            .Where(q => q.PollId == pollId)
+            .Include(q => q.Answers)
+            //.Select(q => new QuestionResponse(
+            //    q.Id,
+            //    q.Content,
+            //    q.Answers.Select(a => new AnswerResponse(
+            //        a.Id,
+            //        a.Content
+            //    ))))
+            .ProjectToType<QuestionResponse>()
+            .ToListAsync();
+
+        return Result.Success<IEnumerable<QuestionResponse>>(questions);
+    }
+    public async Task<Result<QuestionResponse>> Get(int pollId, int questionId)
+    {
+        var question = await _dbContext.Questions
+            .Where(q => q.PollId == pollId && q.Id == questionId)
+            .Include(q => q.Answers)
+            .ProjectToType<QuestionResponse>()
+            .SingleOrDefaultAsync();
+
+        if(question is null)
+            return Result.Failuer<QuestionResponse>(QuestionErrors.QuestionNotFound);
+
+        return Result.Success<QuestionResponse>(question);
+    }
     public async Task<Result<QuestionResponse>> AddAsync(int pollId, QuestionRequest request)
     {
         var pollIsExist = await _dbContext.Polls.AnyAsync(p => p.Id == pollId);
@@ -27,6 +63,7 @@ public class QuestionServices(ServeyBasketDbContext dbContext) : IQuestionServic
 
         return Result.Success(question.Adapt<QuestionResponse>());
     }
+
 }
     
 
