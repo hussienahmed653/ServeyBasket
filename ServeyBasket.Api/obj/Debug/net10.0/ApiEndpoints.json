@@ -153,6 +153,27 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ServeyBasket.Controllers.QuestionsController",
+    "Method": "ToggleStatus",
+    "RelativePath": "api/polls/{pollId}/Questions/{questionId}/toggleStatus",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pollId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "questionId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ServeyBasket.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "Auth",

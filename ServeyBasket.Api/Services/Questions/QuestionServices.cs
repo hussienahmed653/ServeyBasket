@@ -16,7 +16,7 @@ public class QuestionServices(ServeyBasketDbContext dbContext) : IQuestionServic
             return Result.Failuer<IEnumerable<QuestionResponse>> (PollErrors.PollNotFound);
 
         var questions = await _dbContext.Questions
-            .Where(q => q.PollId == pollId)
+            .Where(q => q.PollId == pollId && q.IsActive)
             .Include(q => q.Answers)
             //.Select(q => new QuestionResponse(
             //    q.Id,
@@ -33,7 +33,7 @@ public class QuestionServices(ServeyBasketDbContext dbContext) : IQuestionServic
     public async Task<Result<QuestionResponse>> Get(int pollId, int questionId)
     {
         var question = await _dbContext.Questions
-            .Where(q => q.PollId == pollId && q.Id == questionId)
+            .Where(q => q.PollId == pollId && q.Id == questionId && q.IsActive)
             .Include(q => q.Answers)
             .ProjectToType<QuestionResponse>()
             .SingleOrDefaultAsync();
@@ -41,7 +41,7 @@ public class QuestionServices(ServeyBasketDbContext dbContext) : IQuestionServic
         if(question is null)
             return Result.Failuer<QuestionResponse>(QuestionErrors.QuestionNotFound);
 
-        return Result.Success<QuestionResponse>(question);
+        return Result.Success(question);
     }
     public async Task<Result<QuestionResponse>> AddAsync(int pollId, QuestionRequest request)
     {
@@ -64,6 +64,18 @@ public class QuestionServices(ServeyBasketDbContext dbContext) : IQuestionServic
         return Result.Success(question.Adapt<QuestionResponse>());
     }
 
+    public async Task<Result> ToggleStatusAsync(int pollId, int questionId)
+    {
+        var question = await _dbContext.Questions.SingleOrDefaultAsync(q => q.PollId == pollId && q.Id == questionId);
+        if (question is null)
+            return Result.Failuer(QuestionErrors.QuestionNotFound);
+
+        question.IsActive = !question.IsActive;
+
+        await _dbContext.SaveChangesAsync();
+
+        return Result.Success();
+    }
 }
     
 
