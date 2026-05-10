@@ -1,6 +1,4 @@
-﻿using ServeyBasket.Contracts.Answers;
-using ServeyBasket.Contracts.Questions;
-using ServeyBasket.Services.Answers;
+﻿using ServeyBasket.Contracts.Questions;
 
 namespace ServeyBasket.Services.Questions;
 
@@ -63,7 +61,42 @@ public class QuestionServices(ServeyBasketDbContext dbContext) : IQuestionServic
 
         return Result.Success(question.Adapt<QuestionResponse>());
     }
+    public async Task<Result> UpdateAsync(int pollId, int questionId, QuestionRequest request)
+    {
+        var questionIsExist = await _dbContext.Questions.AnyAsync(
+            q => q.Id != questionId &&
+            q.Content == request.Content &&
+            q.PollId == pollId);
+        if (questionIsExist)
+            return Result.Failuer(QuestionErrors.DuplicatedQuestionContent);
 
+        var question = await _dbContext.Questions
+            .Include(q => q.Answers)
+            .SingleOrDefaultAsync(q => q.PollId == pollId && q.Id == questionId);
+        if (question is null)
+            return Result.Failuer(QuestionErrors.QuestionNotFound);
+
+        question.Content = request.Content;
+
+        var currentAnswers = question.Answers.Select(a => a.Content).ToList();
+
+        var newAnswersIds = request.Answers.Except(currentAnswers).ToList();
+
+        newAnswersIds.ForEach(a =>
+        {
+            question.Answers.Add(new Answer { Content = a });
+        });
+
+        question.Answers.ToList().ForEach(a =>
+        {
+            a.IsActive = request.Answers.Contains(a.Content);
+        });
+
+        await _dbContext.SaveChangesAsync();
+
+        return Result.Success();
+
+    }
     public async Task<Result> ToggleStatusAsync(int pollId, int questionId)
     {
         var question = await _dbContext.Questions.SingleOrDefaultAsync(q => q.PollId == pollId && q.Id == questionId);

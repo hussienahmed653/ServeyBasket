@@ -34,6 +34,14 @@ public class QuestionsController(IQuestionServices questionServices) : Controlle
             : result.ToProblem();
 
     }
+    [HttpPut("{questionId}")]
+    public async Task<IActionResult> Update([FromRoute] int pollId, [FromRoute] int questionId, [FromBody] QuestionRequest request)
+    {
+        var IsUpdates = await _questionServices.UpdateAsync(pollId, questionId, request);
+        return IsUpdates.IsSuccess
+            ? NoContent()
+            : IsUpdates.ToProblem();
+    }
     [HttpPut("{questionId}/toggleStatus")]
     public async Task<IActionResult> ToggleStatus([FromRoute] int pollId, [FromRoute] int questionId)
     {

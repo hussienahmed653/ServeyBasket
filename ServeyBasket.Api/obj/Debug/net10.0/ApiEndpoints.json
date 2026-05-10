@@ -154,6 +154,32 @@
   },
   {
     "ContainingType": "ServeyBasket.Controllers.QuestionsController",
+    "Method": "Update",
+    "RelativePath": "api/polls/{pollId}/Questions/{questionId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pollId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "questionId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "ServeyBasket.Contracts.Questions.QuestionRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServeyBasket.Controllers.QuestionsController",
     "Method": "ToggleStatus",
     "RelativePath": "api/polls/{pollId}/Questions/{questionId}/toggleStatus",
     "HttpMethod": "PUT",
