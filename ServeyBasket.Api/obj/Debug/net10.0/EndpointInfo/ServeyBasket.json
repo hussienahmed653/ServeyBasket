@@ -119,6 +119,18 @@
         }
       }
     },
+    "/api/Polls/current": {
+      "get": {
+        "tags": [
+          "Polls"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Polls/{id}": {
       "get": {
         "tags": [

@@ -200,6 +200,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ServeyBasket.Controllers.PollsController",
+    "Method": "GetCurrent",
+    "RelativePath": "api/Polls/current",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ServeyBasket.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "Auth",

@@ -9,14 +9,15 @@ public class PollsController(IPollServices pollServices) : ControllerBase
 {
     private readonly IPollServices _pollServices = pollServices;
 
-    [HttpGet]
+    [HttpGet("")]
     public async Task<IActionResult> GetAll()
     {
-        var polls = await _pollServices.GetAllAsync();
-
-        return polls.IsSuccess
-            ? Ok(polls.Value)
-            : polls.ToProblem();
+        return Ok(await _pollServices.GetAllAsync());
+    }
+    [HttpGet("current")]
+    public async Task<IActionResult> GetCurrent()
+    {
+        return Ok(await _pollServices.GetCurrentAsync());
     }
     [HttpGet]
     [Route("{id:int}")]

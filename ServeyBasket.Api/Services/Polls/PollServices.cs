@@ -40,17 +40,20 @@ public class PollServices(ServeyBasketDbContext context) : IPollServices
 
         return Result.Success(poll.Adapt<PollResponse>());
     }
-    public async Task<Result<IEnumerable<PollResponse>>> GetAllAsync()
-    {
-        var polls = await _context.Polls
+    public async Task<IEnumerable<PollResponse>> GetAllAsync() => 
+        await _context.Polls
             .AsNoTracking()
+            .ProjectToType<PollResponse>()
             .ToListAsync();
-        if (polls is null)
-            return Result.Failuer<IEnumerable<PollResponse>>(PollErrors.PollNotFound);
 
-        return Result.Success(polls.Adapt<IEnumerable<PollResponse>>());
-    }
-
+    public async Task<IEnumerable<PollResponse>> GetCurrentAsync() =>
+        await _context.Polls
+            .Where(p => p.IsPublished &&
+                    p.StartsAt <= DateOnly.FromDateTime(DateTime.UtcNow) &&
+                    p.EndsAt >= DateOnly.FromDateTime(DateTime.UtcNow))
+            .AsNoTracking()
+            .ProjectToType<PollResponse>()
+            .ToListAsync();
     public async Task<Result> UpdateAsync(int id, PollRequest request)
     {
         var isExisting = await _context.Polls.AsNoTracking().AnyAsync(p => p.Title == request.Title && p.Id != id);
@@ -84,4 +87,5 @@ public class PollServices(ServeyBasketDbContext context) : IPollServices
 
         return Result.Success();
     }
+
 }
