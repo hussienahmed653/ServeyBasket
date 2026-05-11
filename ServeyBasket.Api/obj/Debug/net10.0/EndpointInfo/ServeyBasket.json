@@ -452,6 +452,33 @@
           }
         }
       }
+    },
+    "/api/polls/{pollId}/vote": {
+      "get": {
+        "tags": [
+          "Votes"
+        ],
+        "parameters": [
+          {
+            "name": "pollId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -546,6 +573,9 @@
     },
     {
       "name": "Questions"
+    },
+    {
+      "name": "Votes"
     }
   ]
 }

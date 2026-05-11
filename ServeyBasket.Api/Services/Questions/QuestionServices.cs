@@ -1,6 +1,4 @@
-﻿using ServeyBasket.Contracts.Questions;
-
-namespace ServeyBasket.Services.Questions;
+﻿namespace ServeyBasket.Services.Questions;
 
 public class QuestionServices(ServeyBasketDbContext dbContext) : IQuestionServices
 {
@@ -24,6 +22,35 @@ public class QuestionServices(ServeyBasketDbContext dbContext) : IQuestionServic
             //        a.Content
             //    ))))
             .ProjectToType<QuestionResponse>()
+            .ToListAsync();
+
+        return Result.Success<IEnumerable<QuestionResponse>>(questions);
+    }
+    public async Task<Result<IEnumerable<QuestionResponse>>> GetAvailable(int pollId, string userId)
+    {
+        var pollIsExist = await _dbContext.Polls
+                    .AnyAsync(p => p.Id == pollId && p.IsPublished &&
+                    p.StartsAt <= DateOnly.FromDateTime(DateTime.UtcNow) &&
+                    p.EndsAt >= DateOnly.FromDateTime(DateTime.UtcNow));
+        if(!pollIsExist)
+            return Result.Failuer<IEnumerable<QuestionResponse>>(PollErrors.PollNotFound);
+        var hasVote = await _dbContext.Votes.AnyAsync(v => v.PollId == pollId && v.UserId == userId);
+        if(hasVote)
+            return Result.Failuer<IEnumerable<QuestionResponse>>(VoteErrors.DuplicatedVote);
+
+        var questions = await _dbContext.Questions
+            .Where(q => q.PollId == pollId && q.IsActive)
+            .Include(q => q.Answers)
+            .Select(q => new QuestionResponse(
+                q.Id,
+                q.Content,
+                q.Answers
+                .Where(a => a.IsActive)
+                .Select(a => new AnswerResponse(
+                    a.Id,
+                    a.Content
+                ))))
+            .AsNoTracking()
             .ToListAsync();
 
         return Result.Success<IEnumerable<QuestionResponse>>(questions);
