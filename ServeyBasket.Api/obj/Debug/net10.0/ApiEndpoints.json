@@ -216,6 +216,27 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ServeyBasket.Controllers.VotesController",
+    "Method": "Vote",
+    "RelativePath": "api/polls/{pollId}/vote",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pollId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "ServeyBasket.Contracts.Votes.VoteRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ServeyBasket.Controllers.PollsController",
     "Method": "GetCurrent",
     "RelativePath": "api/Polls/current",

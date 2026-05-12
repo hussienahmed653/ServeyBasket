@@ -17,6 +17,7 @@ global using ServeyBasket.Contracts.Auth;
 global using ServeyBasket.Contracts.Polls;
 global using ServeyBasket.Contracts.Questions;
 global using ServeyBasket.Contracts.RefreshToken;
+global using ServeyBasket.Contracts.Votes;
 global using ServeyBasket.Entities;
 global using ServeyBasket.Errors;
 global using ServeyBasket.Extentions;
