@@ -1,6 +1,4 @@
-﻿using ServeyBasket.Contracts.Questions;
-
-namespace ServeyBasket.Mapping;
+﻿namespace ServeyBasket.Mapping;
 
 public class MappingConfig : IRegister
 {

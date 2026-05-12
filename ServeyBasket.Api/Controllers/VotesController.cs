@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace ServeyBasket.Controllers;
+﻿namespace ServeyBasket.Controllers;
 
 [Route("api/polls/{pollId}/vote")]
 [ApiController]
@@ -13,7 +10,7 @@ public class VotesController(IQuestionServices questionServices) : ControllerBas
     [HttpGet("")]
     public async Task<IActionResult> Start(int pollId)
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userId = User.GetUserId();
         var result = await _questionServices.GetAvailable(pollId, userId!);
 
         return result.IsSuccess

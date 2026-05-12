@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace ServeyBasket.Persistense.EntitiesConfigurations;
+﻿namespace ServeyBasket.Persistense.EntitiesConfigurations;
 
 public class AnswersConfig : IEntityTypeConfiguration<Answer>
 {

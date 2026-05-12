@@ -1,6 +1,4 @@
-﻿using ServeyBasket.Contracts.Answer;
-
-namespace ServeyBasket.Contracts.Answers;
+﻿namespace ServeyBasket.Contracts.Answers;
 
 public class AnswerRequestValidator : AbstractValidator<AnswerRequest>
 {

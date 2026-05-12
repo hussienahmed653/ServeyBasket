@@ -6,10 +6,12 @@ global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Microsoft.IdentityModel.Tokens;
 global using ServeyBasket;
 global using ServeyBasket.Abstractions;
 global using ServeyBasket.Authentication;
+global using ServeyBasket.Contracts.Answer;
 global using ServeyBasket.Contracts.Answers;
 global using ServeyBasket.Contracts.Auth;
 global using ServeyBasket.Contracts.Polls;
@@ -17,6 +19,7 @@ global using ServeyBasket.Contracts.Questions;
 global using ServeyBasket.Contracts.RefreshToken;
 global using ServeyBasket.Entities;
 global using ServeyBasket.Errors;
+global using ServeyBasket.Extentions;
 global using ServeyBasket.Persistense;
 global using ServeyBasket.Services.Authentications;
 global using ServeyBasket.Services.Polls;
@@ -27,4 +30,5 @@ global using System.Reflection;
 global using System.Security.Claims;
 global using System.Security.Cryptography;
 global using System.Text;
+
 

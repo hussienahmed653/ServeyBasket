@@ -1,6 +1,4 @@
-﻿using ServeyBasket.Contracts.Questions;
-
-namespace ServeyBasket.Controllers;
+﻿namespace ServeyBasket.Controllers;
 
 [Route("api/polls/{pollId}/[controller]")]
 [ApiController]

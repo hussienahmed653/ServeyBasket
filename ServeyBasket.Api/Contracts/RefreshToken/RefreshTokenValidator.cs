@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.Data;
-
-namespace ServeyBasket.Contracts.RefreshToken;
+﻿namespace ServeyBasket.Contracts.RefreshToken;
 
 public class RefreshTokenValidator : AbstractValidator<RefreshTokenRequest>
 {

@@ -27,7 +27,7 @@ public class ServeyBasketDbContext(DbContextOptions<ServeyBasketDbContext> optio
     }
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var userId = _httpContextAccessor.HttpContext?.User.GetUserId()!;
         var entries = ChangeTracker.Entries<AuditableEntity>();
         foreach (var entityEntry in entries)
         {

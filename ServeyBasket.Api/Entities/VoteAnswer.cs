@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
-namespace ServeyBasket.Entities;
+﻿namespace ServeyBasket.Entities;
 
 public class VoteAnswer
 {

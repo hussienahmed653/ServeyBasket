@@ -1,6 +1,4 @@
-﻿using ServeyBasket.Contracts.Answers;
-
-namespace ServeyBasket.Contracts.Questions;
+﻿namespace ServeyBasket.Contracts.Questions;
 
 public record QuestionResponse(
     int Id,
