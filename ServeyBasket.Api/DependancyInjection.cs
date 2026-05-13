@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using ServeyBasket.Services.Answers;
+using ServeyBasket.Services.Results;
 using ServeyBasket.Services.Votes;
 
 
@@ -34,6 +35,7 @@ public static class DependancyInjection
         services.AddScoped<IQuestionServices, QuestionServices>();
         services.AddScoped<IAnswerServices, AnswerServices>();
         services.AddScoped<IVoteServices, VoteServices>();
+        services.AddScoped<IResultServices, ResultServices>();
 
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
