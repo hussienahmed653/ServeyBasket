@@ -74,7 +74,6 @@ public static class DependancyInjection
     {
         services.AddSingleton<IJwtProvider, JwtProvider>();
 
-        //services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
         services.AddOptions<JwtOptions>()
             .Bind(configuration.GetSection(JwtOptions.SectionName))
             .ValidateDataAnnotations()
@@ -89,7 +88,7 @@ public static class DependancyInjection
         {
             options.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "ServeyBasket API",
+                Title = "ServeyBasket",
                 Version = "v1"
             });
 
