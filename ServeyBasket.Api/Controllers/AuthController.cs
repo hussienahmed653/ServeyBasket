@@ -6,7 +6,7 @@ public class AuthController(IAuthServices authServices) : ControllerBase
 {
     private readonly IAuthServices _authServices = authServices;
 
-    [HttpPost]
+    [HttpPost("/login")]
     public async Task<IActionResult> Login(AuthRequest request)
     {
         var authResponse = await _authServices.GetTokenAsync(request);
