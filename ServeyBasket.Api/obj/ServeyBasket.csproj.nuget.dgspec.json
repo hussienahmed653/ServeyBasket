@@ -74,7 +74,7 @@
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[10.0.5, )"
+              "version": "[10.0.8, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -93,6 +93,10 @@
             "SharpGrip.FluentValidation.AutoValidation.Mvc": {
               "target": "Package",
               "version": "[2.0.0, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[10.1.7, )"
             },
             "Swashbuckle.AspNetCore.SwaggerUI": {
               "target": "Package",

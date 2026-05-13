@@ -17,17 +17,16 @@ public class PollsController(IPollServices pollServices) : ControllerBase
     {
         return Ok(await _pollServices.GetCurrentAsync());
     }
-    [HttpGet]
-    [Route("{id:int}")]
-    public async Task<IActionResult> Get(int id)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get([FromRoute] int id)
     {
         var poll = await _pollServices.GetAsync(id);
         return poll.IsSuccess
             ? Ok(poll.Value)
             : poll.ToProblem();
     }
-    [HttpPost]
-    public async Task<IActionResult> Add(PollRequest request)
+    [HttpPost("")]
+    public async Task<IActionResult> Add([FromBody]PollRequest request)
     {
         var result = await _pollServices.AddAsync(request);
 
@@ -35,18 +34,16 @@ public class PollsController(IPollServices pollServices) : ControllerBase
             ? CreatedAtAction(nameof(Get), new { id = result.Value!.Id }, result.Value)
             : result.ToProblem();
     }
-    [HttpPut]
-    [Route("{id:int}")]
-    public async Task<IActionResult> Update(int id, PollRequest request)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update([FromRoute] int id, [FromBody] PollRequest request)
     {
         var IsUpdates = await _pollServices.UpdateAsync(id, request);
         return IsUpdates.IsSuccess
             ? NoContent()
             : IsUpdates.ToProblem();
     }
-    [HttpPut]
-    [Route("{id:int}/togglePublish")]
-    public async Task<IActionResult> TogglePublish(int id)
+    [HttpPut("{id}/togglePublish")]
+    public async Task<IActionResult> TogglePublish([FromRoute] int id)
     {
         var IsUpdates = await _pollServices.TogglePublishStatusAsync(id);
         return IsUpdates.IsSuccess
@@ -54,9 +51,8 @@ public class PollsController(IPollServices pollServices) : ControllerBase
             : IsUpdates.ToProblem();
     }
 
-    [HttpDelete]
-    [Route("{id:int}")]
-    public async Task<IActionResult> Delete(int id)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete([FromRoute] int id)
     {
         var IsDeleted = await _pollServices.DeletedAsync(id);
 

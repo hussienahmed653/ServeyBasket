@@ -13,7 +13,7 @@
     }
   ],
   "paths": {
-    "/Auth": {
+    "/Auth/login": {
       "post": {
         "tags": [
           "Auth"
@@ -143,7 +143,10 @@
             "required": true,
             "schema": {
               "pattern": "^-?(?:0|[1-9]\\d*)$",
-              "type": "integer",
+              "type": [
+                "integer",
+                "string"
+              ],
               "format": "int32"
             }
           }
@@ -165,7 +168,10 @@
             "required": true,
             "schema": {
               "pattern": "^-?(?:0|[1-9]\\d*)$",
-              "type": "integer",
+              "type": [
+                "integer",
+                "string"
+              ],
               "format": "int32"
             }
           }
@@ -207,7 +213,10 @@
             "required": true,
             "schema": {
               "pattern": "^-?(?:0|[1-9]\\d*)$",
-              "type": "integer",
+              "type": [
+                "integer",
+                "string"
+              ],
               "format": "int32"
             }
           }
@@ -231,7 +240,10 @@
             "required": true,
             "schema": {
               "pattern": "^-?(?:0|[1-9]\\d*)$",
-              "type": "integer",
+              "type": [
+                "integer",
+                "string"
+              ],
               "format": "int32"
             }
           }

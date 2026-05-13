@@ -297,7 +297,7 @@
   {
     "ContainingType": "ServeyBasket.Controllers.AuthController",
     "Method": "Login",
-    "RelativePath": "Auth",
+    "RelativePath": "Auth/login",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
