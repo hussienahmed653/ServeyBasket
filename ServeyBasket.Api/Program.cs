@@ -1,7 +1,13 @@
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDependencies(builder.Configuration);
 
+builder.Host.UseSerilog((hostingContext, configuration) =>
+{
+    configuration.ReadFrom.Configuration(hostingContext.Configuration);
+});
 
 var app = builder.Build();
 
@@ -15,6 +21,8 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "ServeyBasket API v1");
     });
 }
+
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
