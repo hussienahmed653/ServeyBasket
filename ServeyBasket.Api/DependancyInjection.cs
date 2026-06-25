@@ -15,6 +15,8 @@ public static class DependancyInjection
         services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         services.AddOpenApi();
+        
+        services.AddHybridCache();
 
         services
             .AddMappesterServices()

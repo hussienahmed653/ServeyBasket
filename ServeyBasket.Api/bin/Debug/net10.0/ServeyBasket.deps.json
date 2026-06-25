@@ -17,6 +17,7 @@
           "Microsoft.EntityFrameworkCore": "10.0.5",
           "Microsoft.EntityFrameworkCore.SqlServer": "10.0.5",
           "Microsoft.EntityFrameworkCore.Tools": "10.0.5",
+          "Microsoft.Extensions.Caching.Hybrid": "10.7.0",
           "Serilog.AspNetCore": "10.0.0",
           "SharpGrip.FluentValidation.AutoValidation.Mvc": "2.0.0",
           "Swashbuckle.AspNetCore": "10.1.7",
@@ -594,6 +595,14 @@
       "Microsoft.EntityFrameworkCore.Tools/10.0.5": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Design": "10.0.5"
+        }
+      },
+      "Microsoft.Extensions.Caching.Hybrid/10.7.0": {
+        "runtime": {
+          "lib/net10.0/Microsoft.Extensions.Caching.Hybrid.dll": {
+            "assemblyVersion": "10.7.0.0",
+            "fileVersion": "10.700.26.30905"
+          }
         }
       },
       "Microsoft.Extensions.DependencyModel/10.0.5": {
@@ -1211,6 +1220,13 @@
       "sha512": "sha512-maSlvKez/gwy88zoLXCafRh0gEFmakM7fnf6zEi6nyItp7A1Negmp/YBodiuWcxLUguvVkPJZX15MnLeuJwjQA==",
       "path": "microsoft.entityframeworkcore.tools/10.0.5",
       "hashPath": "microsoft.entityframeworkcore.tools.10.0.5.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Caching.Hybrid/10.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-DWdLkc6SCZhlQPXFuOjMee1wotUcsdLHzOrN2GN9JsWVscYrGXR91SjH1g7bhUrF6f8ayZD31KxoXAoXxVpCvA==",
+      "path": "microsoft.extensions.caching.hybrid/10.7.0",
+      "hashPath": "microsoft.extensions.caching.hybrid.10.7.0.nupkg.sha512"
     },
     "Microsoft.Extensions.DependencyModel/10.0.5": {
       "type": "package",

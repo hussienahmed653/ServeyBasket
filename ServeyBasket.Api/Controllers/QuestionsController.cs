@@ -27,8 +27,8 @@ public class QuestionsController(IQuestionServices questionServices) : Controlle
     {
         var result = await _questionServices.AddAsync(pollId, request);
 
-        return result.IsSuccess ? 
-            CreatedAtAction(nameof(Get), new { pollId = pollId, result.Value!.Id }, result.Value)
+        return result.IsSuccess 
+            ? CreatedAtAction(nameof(Get), new { pollId, questionId = result.Value!.Id }, result.Value)
             : result.ToProblem();
 
     }

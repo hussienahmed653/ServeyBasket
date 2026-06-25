@@ -1,30 +1,31 @@
-﻿namespace ServeyBasket.Services.Questions;
+﻿using Microsoft.Extensions.Caching.Hybrid;
 
-public class QuestionServices(ServeyBasketDbContext dbContext) : IQuestionServices
+namespace ServeyBasket.Services.Questions;
+
+public class QuestionServices(ServeyBasketDbContext dbContext, HybridCache hybridCache) : IQuestionServices
 {
     private readonly ServeyBasketDbContext _dbContext = dbContext;
-
+    private readonly HybridCache _hybridCache = hybridCache;
+    private readonly string _cachePrefix = "AvailableQuestions";
     public async Task<Result<IEnumerable<QuestionResponse>>> GetAll(int pollId)
     {
         var pollIsExist = await _dbContext.Polls.AnyAsync(p => p.Id == pollId);
 
         if (!pollIsExist)
-            return Result.Failuer<IEnumerable<QuestionResponse>> (PollErrors.PollNotFound);
+            return Result.Failuer<IEnumerable<QuestionResponse>>(PollErrors.PollNotFound);
 
-        var questions = await _dbContext.Questions
-            .Where(q => q.PollId == pollId && q.IsActive)
-            .Include(q => q.Answers)
-            //.Select(q => new QuestionResponse(
-            //    q.Id,
-            //    q.Content,
-            //    q.Answers.Select(a => new AnswerResponse(
-            //        a.Id,
-            //        a.Content
-            //    ))))
-            .ProjectToType<QuestionResponse>()
-            .ToListAsync();
+        var cacheKey = $"{_cachePrefix}-{pollId}";
+        var questions = await _hybridCache.GetOrCreateAsync<IEnumerable<QuestionResponse>>(
+                cacheKey,
+                async cachedEntry => await _dbContext.Questions
+                .Where(q => q.PollId == pollId && q.IsActive)
+                .Include(q => q.Answers)
+                .ProjectToType<QuestionResponse>()
+                .AsNoTracking()
+                .ToListAsync()
+        );
 
-        return Result.Success<IEnumerable<QuestionResponse>>(questions);
+        return Result.Success(questions);
     }
     public async Task<Result<IEnumerable<QuestionResponse>>> GetAvailable(int pollId, string userId)
     {
@@ -38,22 +39,27 @@ public class QuestionServices(ServeyBasketDbContext dbContext) : IQuestionServic
         if(hasVote)
             return Result.Failuer<IEnumerable<QuestionResponse>>(VoteErrors.DuplicatedVote);
 
-        var questions = await _dbContext.Questions
-            .Where(q => q.PollId == pollId && q.IsActive)
-            .Include(q => q.Answers)
-            .Select(q => new QuestionResponse(
-                q.Id,
-                q.Content,
-                q.Answers
-                .Where(a => a.IsActive)
-                .Select(a => new AnswerResponse(
-                    a.Id,
-                    a.Content
-                ))))
-            .AsNoTracking()
-            .ToListAsync();
+        var cacheKey = $"{_cachePrefix}-{pollId}";
 
-        return Result.Success<IEnumerable<QuestionResponse>>(questions);
+        var questions = await _hybridCache.GetOrCreateAsync<IEnumerable<QuestionResponse>>(
+                cacheKey,
+                async cachedEntry => await _dbContext.Questions
+                .Where(q => q.PollId == pollId && q.IsActive)
+                .Include(q => q.Answers)
+                .Select(q => new QuestionResponse(
+                    q.Id,
+                    q.Content,
+                    q.Answers
+                    .Where(a => a.IsActive)
+                    .Select(a => new AnswerResponse(
+                        a.Id,
+                        a.Content
+                    ))))
+                .AsNoTracking()
+                .ToListAsync()
+        );
+
+        return Result.Success(questions);
     }
     public async Task<Result<QuestionResponse>> Get(int pollId, int questionId)
     {
@@ -85,6 +91,8 @@ public class QuestionServices(ServeyBasketDbContext dbContext) : IQuestionServic
 
         await _dbContext.AddAsync(question);
         await _dbContext.SaveChangesAsync();
+
+        await _hybridCache.RemoveAsync($"{_cachePrefix}-{pollId}");
 
         return Result.Success(question.Adapt<QuestionResponse>());
     }
@@ -121,6 +129,8 @@ public class QuestionServices(ServeyBasketDbContext dbContext) : IQuestionServic
 
         await _dbContext.SaveChangesAsync();
 
+        await _hybridCache.RemoveAsync($"{_cachePrefix}-{pollId}");
+
         return Result.Success();
 
     }
@@ -133,6 +143,8 @@ public class QuestionServices(ServeyBasketDbContext dbContext) : IQuestionServic
         question.IsActive = !question.IsActive;
 
         await _dbContext.SaveChangesAsync();
+
+        await _hybridCache.RemoveAsync($"{_cachePrefix}-{pollId}");
 
         return Result.Success();
     }
