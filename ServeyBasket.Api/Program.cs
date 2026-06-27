@@ -1,4 +1,7 @@
+using Hangfire;
+using HangfireBasicAuthenticationFilter;
 using Serilog;
+using ServeyBasket.Services.BackgroundJobNotification;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +28,26 @@ if (app.Environment.IsDevelopment())
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
+
+app.UseHangfireDashboard("/jobs", new DashboardOptions
+{
+    Authorization =
+    [
+        new HangfireCustomBasicAuthenticationFilter
+        {
+            User = app.Configuration.GetValue<string>("HangfireSettings:UserName"),
+            Pass = app.Configuration.GetValue<string>("HangfireSettings:Password")
+        }
+    ],
+    DashboardTitle = "Servey Basket Dashboard"
+});
+
+var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+using var scope = scopeFactory.CreateScope();
+var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
+
+RecurringJob.AddOrUpdate("SendNewPollsNotification", () => notificationService.SendNewPollsNotification(null), Cron.Daily);
+
 
 app.UseCors();
 app.UseAuthentication();

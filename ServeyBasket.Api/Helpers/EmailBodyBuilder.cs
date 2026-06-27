@@ -2,7 +2,7 @@
 
 public static class EmailBodyBuilder
 {
-    public static string BuildEmailBody(string template, Dictionary<string, string> templateValues)
+    public static string GenerateEmailBody(string template, Dictionary<string, string> templateValues)
     {
         var templatePath = $"{Directory.GetCurrentDirectory()}/Templates/{template}.html";
         var streamReader = new StreamReader(templatePath);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.WebUtilities;
 using ServeyBasket.Helpers;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
@@ -178,12 +179,14 @@ public class AuthServices(
     {
         var origing = _httpContextAccessor.HttpContext?.Request.Headers.Origin;
 
-        var emailBody = EmailBodyBuilder.BuildEmailBody("EmailConfirmation", new Dictionary<string, string>
+        var emailBody = EmailBodyBuilder.GenerateEmailBody("EmailConfirmation", new Dictionary<string, string>
             {
                 { "{{name}}", user.FirstName },
                 { "{{action_url}}", $"{origing}/api/auth/confirm-email?userId={user.Id}&code={code}" }
             });
 
-        await _emailSender.SendEmailAsync(user.Email!, "Confirm your email", emailBody);
+        BackgroundJob.Enqueue(() => _emailSender.SendEmailAsync(user.Email!, "✅ Confirm your email", emailBody));
+
+        await Task.CompletedTask;
     }
 }

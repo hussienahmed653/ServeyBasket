@@ -1,8 +1,12 @@
-﻿namespace ServeyBasket.Services.Polls;
+﻿using Hangfire;
+using ServeyBasket.Services.BackgroundJobNotification;
 
-public class PollServices(ServeyBasketDbContext context) : IPollServices
+namespace ServeyBasket.Services.Polls;
+
+public class PollServices(ServeyBasketDbContext context, INotificationService notificationService) : IPollServices
 {
     private readonly ServeyBasketDbContext _context = context;
+    private readonly INotificationService _notificationService = notificationService;
 
     public async Task<Result<PollResponse>> AddAsync(PollRequest pollreq)
     {
@@ -84,6 +88,10 @@ public class PollServices(ServeyBasketDbContext context) : IPollServices
         poll.IsPublished = !poll.IsPublished;
 
         await _context.SaveChangesAsync();
+
+        if (poll.IsPublished && poll.StartsAt == DateOnly.FromDateTime(DateTime.UtcNow))
+            BackgroundJob.Enqueue(() => _notificationService.SendNewPollsNotification(id));
+
 
         return Result.Success();
     }

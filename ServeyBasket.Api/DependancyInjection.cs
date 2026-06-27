@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.OpenApi;
 using ServeyBasket.Services.Answers;
 using ServeyBasket.Services.Authentications.EmailSender;
+using ServeyBasket.Services.BackgroundJobNotification;
 using ServeyBasket.Services.Results;
 using ServeyBasket.Services.Votes;
 using ServeyBasket.Settings;
@@ -22,10 +24,11 @@ public static class DependancyInjection
         services.AddHybridCache();
 
         services
-            .AddMappesterServices()
-            .AddFluentValidationServices()
+            .AddDbContext(configuration)
+            .AddBackgrounJobsServices(configuration)
             .AddAuthenticationServices(configuration)
-            .AddDbContext(configuration);
+            .AddMappesterServices()
+            .AddFluentValidationServices();
 
         services.AddCors(options => 
             options.AddDefaultPolicy(builder => 
@@ -43,6 +46,7 @@ public static class DependancyInjection
         services.AddScoped<IVoteServices, VoteServices>();
         services.AddScoped<IResultServices, ResultServices>();
         services.AddScoped<IEmailSender, EmailService>();
+        services.AddScoped<INotificationService, NotificationService>();
 
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
@@ -77,6 +81,7 @@ public static class DependancyInjection
 
         services.AddDbContext<ServeyBasketDbContext>(options =>
             options.UseSqlServer(connectionString));
+
 
         return services;
     }
@@ -140,5 +145,15 @@ public static class DependancyInjection
         });
 
             return services;
+    }
+    private static IServiceCollection AddBackgrounJobsServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        return services.AddHangfire(config => config
+        .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+        .UseSimpleAssemblyNameTypeSerializer()
+        .UseRecommendedSerializerSettings()
+        .UseSqlServerStorage(configuration.GetConnectionString("HangfireConnection")))
+        // Add the processing server as IHostedService
+        .AddHangfireServer();
     }
 }
