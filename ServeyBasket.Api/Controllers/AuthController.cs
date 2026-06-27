@@ -23,4 +23,36 @@ public class AuthController(IAuthServices authServices) : ControllerBase
             ? Ok(refreshTokenResponse.Value)
             : refreshTokenResponse.ToProblem();
     }
+    [HttpPost("revoke-refresh-token")]
+    public async Task<IActionResult> RevokeRefreshToken([FromBody] RefreshTokenRequest request)
+    {
+        var result = await _authServices.RevokeRefreshTokenAsync(request.Token!, request.RefreshToken!);
+
+        return result.IsSuccess ? Ok() : result.ToProblem();
+    }
+    [HttpPost("register")]
+    public async Task<IActionResult> Register(RegisterRequest request)
+    {
+        var registerResponse = await _authServices.RegisterAsync(request);
+        return registerResponse.IsSuccess
+            ? Ok()
+            : registerResponse.ToProblem();
+    }
+    [HttpPost("confirm-email")]
+    public async Task<IActionResult> ConfirmEmail(ConfirmEmailRequest request)
+    {
+        var registerResponse = await _authServices.ConfirmEmailAsync(request);
+        return registerResponse.IsSuccess
+            ? Ok()
+            : registerResponse.ToProblem();
+    }
+    [HttpPost("resend-confirm-email")]
+    public async Task<IActionResult> ResendConfirmEmail(ResendConfirmEmailRequest request)
+    {
+        var registerResponse = await _authServices.ResendConfirmEmailAsync(request);
+        return registerResponse.IsSuccess
+            ? Ok()
+            : registerResponse.ToProblem();
+    }
+
 }

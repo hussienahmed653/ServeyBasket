@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.OpenApi;
 using ServeyBasket.Services.Answers;
+using ServeyBasket.Services.Authentications.EmailSender;
 using ServeyBasket.Services.Results;
 using ServeyBasket.Services.Votes;
+using ServeyBasket.Settings;
 
 
 namespace ServeyBasket;
@@ -39,9 +42,14 @@ public static class DependancyInjection
         services.AddScoped<IAnswerServices, AnswerServices>();
         services.AddScoped<IVoteServices, VoteServices>();
         services.AddScoped<IResultServices, ResultServices>();
+        services.AddScoped<IEmailSender, EmailService>();
 
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
+
+        services.AddHttpContextAccessor();
+
+        services.Configure<MailSettings>(configuration.GetSection(nameof(MailSettings)));
 
         return services;
     }
@@ -83,7 +91,8 @@ public static class DependancyInjection
         var jwtOptions = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
 
         services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<ServeyBasketDbContext>();
+            .AddEntityFrameworkStores<ServeyBasketDbContext>()
+            .AddDefaultTokenProviders();
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
@@ -122,6 +131,14 @@ public static class DependancyInjection
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions?.Key!))
                 };
             });
+
+        services.Configure<IdentityOptions>(options =>
+        {
+            options.Password.RequiredLength = 8;
+            options.SignIn.RequireConfirmedEmail = true;
+            options.User.RequireUniqueEmail = true;
+        });
+
             return services;
     }
 }

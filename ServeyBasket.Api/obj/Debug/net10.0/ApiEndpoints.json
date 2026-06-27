@@ -296,6 +296,22 @@
   },
   {
     "ContainingType": "ServeyBasket.Controllers.AuthController",
+    "Method": "ConfirmEmail",
+    "RelativePath": "Auth/confirm-email",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ServeyBasket.Contracts.Auth.ConfirmEmailRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServeyBasket.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "Auth/login",
     "HttpMethod": "POST",
@@ -314,6 +330,54 @@
     "ContainingType": "ServeyBasket.Controllers.AuthController",
     "Method": "GetRefreshToken",
     "RelativePath": "Auth/refresh",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ServeyBasket.Contracts.RefreshToken.RefreshTokenRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServeyBasket.Controllers.AuthController",
+    "Method": "Register",
+    "RelativePath": "Auth/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ServeyBasket.Contracts.Auth.RegisterRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServeyBasket.Controllers.AuthController",
+    "Method": "ResendConfirmEmail",
+    "RelativePath": "Auth/resend-confirm-email",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ServeyBasket.Contracts.Auth.ResendConfirmEmailRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServeyBasket.Controllers.AuthController",
+    "Method": "RevokeRefreshToken",
+    "RelativePath": "Auth/revoke-refresh-token",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
