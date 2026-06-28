@@ -1,4 +1,6 @@
-﻿namespace ServeyBasket.Controllers;
+﻿using ServeyBasket.Contracts.Users;
+
+namespace ServeyBasket.Controllers;
 
 [Route("[controller]")]
 [ApiController]
@@ -50,6 +52,22 @@ public class AuthController(IAuthServices authServices) : ControllerBase
     public async Task<IActionResult> ResendConfirmEmail(ResendConfirmEmailRequest request)
     {
         var registerResponse = await _authServices.ResendConfirmEmailAsync(request);
+        return registerResponse.IsSuccess
+            ? Ok()
+            : registerResponse.ToProblem();
+    }
+    [HttpPost("forget-password")]
+    public async Task<IActionResult> ForgetPassword(ForgetPasswordRequest request)
+    {
+        var registerResponse = await _authServices.SendResetPasswordCodeAsync(request.Email);
+        return registerResponse.IsSuccess
+            ? Ok()
+            : registerResponse.ToProblem();
+    }
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
+    {
+        var registerResponse = await _authServices.ResetPasswordAsync(request);
         return registerResponse.IsSuccess
             ? Ok()
             : registerResponse.ToProblem();

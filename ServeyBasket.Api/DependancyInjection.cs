@@ -6,6 +6,7 @@ using ServeyBasket.Services.Answers;
 using ServeyBasket.Services.Authentications.EmailSender;
 using ServeyBasket.Services.BackgroundJobNotification;
 using ServeyBasket.Services.Results;
+using ServeyBasket.Services.Users;
 using ServeyBasket.Services.Votes;
 using ServeyBasket.Settings;
 
@@ -47,6 +48,7 @@ public static class DependancyInjection
         services.AddScoped<IResultServices, ResultServices>();
         services.AddScoped<IEmailSender, EmailService>();
         services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<IUserService, UserService>();
 
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();

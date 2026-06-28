@@ -312,6 +312,22 @@
   },
   {
     "ContainingType": "ServeyBasket.Controllers.AuthController",
+    "Method": "ForgetPassword",
+    "RelativePath": "Auth/forget-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ServeyBasket.Contracts.Users.ForgetPasswordRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServeyBasket.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "Auth/login",
     "HttpMethod": "POST",
@@ -376,6 +392,22 @@
   },
   {
     "ContainingType": "ServeyBasket.Controllers.AuthController",
+    "Method": "ResetPassword",
+    "RelativePath": "Auth/reset-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ServeyBasket.Contracts.Auth.ResetPasswordRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServeyBasket.Controllers.AuthController",
     "Method": "RevokeRefreshToken",
     "RelativePath": "Auth/revoke-refresh-token",
     "HttpMethod": "POST",
@@ -385,6 +417,48 @@
       {
         "Name": "request",
         "Type": "ServeyBasket.Contracts.RefreshToken.RefreshTokenRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServeyBasket.Controllers.AccountController",
+    "Method": "Profile",
+    "RelativePath": "me",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServeyBasket.Controllers.AccountController",
+    "Method": "ChangePassword",
+    "RelativePath": "me/change-password",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ServeyBasket.Contracts.Users.ChangePasswordRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServeyBasket.Controllers.AccountController",
+    "Method": "Update",
+    "RelativePath": "me/info",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ServeyBasket.Contracts.Users.UpdateProfileRequest",
         "IsRequired": true
       }
     ],

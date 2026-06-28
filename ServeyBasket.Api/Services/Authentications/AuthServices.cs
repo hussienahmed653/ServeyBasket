@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.WebUtilities;
 using ServeyBasket.Helpers;
-using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
+using RegisterRequest = ServeyBasket.Contracts.Auth.RegisterRequest;
 
 namespace ServeyBasket.Services.Authentications;
 
@@ -116,7 +116,7 @@ public class AuthServices(
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-            _logger.LogInformation("user created successfully {code}", code);
+            _logger.LogInformation("Confirm Email Code: {code}", code);
 
             await SendConfirmationEmail(user, code);
 
@@ -165,10 +165,50 @@ public class AuthServices(
         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-        _logger.LogInformation("user created successfully {code}", code);
+        _logger.LogInformation("Confirm Email Code: {code}", code);
 
         await SendConfirmationEmail(user, code);
         return Result.Success();
+    }
+
+    public async Task<Result> SendResetPasswordCodeAsync(string email)
+    {
+        if (await _userManager.FindByEmailAsync(email) is not { } user)
+            return Result.Success();
+
+        var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+        _logger.LogInformation("Forget Password Code: {code}", code);
+
+        await SendResetPasswordEmail(user, code);
+        return Result.Success();
+    }
+
+    public async Task<Result> ResetPasswordAsync(ResetPasswordRequest request)
+    {
+        var user = await _userManager.FindByEmailAsync(request.Email);
+        if (user is null || !user.EmailConfirmed)
+            return Result.Failuer(UserErrors.InvalidCode);
+
+        IdentityResult result;
+
+
+        try
+        {
+            var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(request.Code));
+            result = await _userManager.ResetPasswordAsync(user, code, request.NewPassword);
+        }
+        catch (FormatException)
+        {
+            result = IdentityResult.Failed(_userManager.ErrorDescriber.InvalidToken());
+        }
+
+        if (result.Succeeded)
+            return Result.Success();
+
+        var error = result.Errors.First();
+        return Result.Failuer(new Error(error.Code, error.Description, StatusCodes.Status401Unauthorized));
     }
 
     private static string GenerateRefreshToken()
@@ -183,6 +223,20 @@ public class AuthServices(
             {
                 { "{{name}}", user.FirstName },
                 { "{{action_url}}", $"{origing}/api/auth/confirm-email?userId={user.Id}&code={code}" }
+            });
+
+        BackgroundJob.Enqueue(() => _emailSender.SendEmailAsync(user.Email!, "✅ Confirm your email", emailBody));
+
+        await Task.CompletedTask;
+    }
+    private async Task SendResetPasswordEmail(ApplicationUser user, string code)
+    {
+        var origing = _httpContextAccessor.HttpContext?.Request.Headers.Origin;
+
+        var emailBody = EmailBodyBuilder.GenerateEmailBody("ForgetPassword", new Dictionary<string, string>
+            {
+                { "{{name}}", user.FirstName },
+                { "{{action_url}}", $"{origing}/api/auth/forget-password?email={user.Email}&code={code}" }
             });
 
         BackgroundJob.Enqueue(() => _emailSender.SendEmailAsync(user.Email!, "✅ Confirm your email", emailBody));

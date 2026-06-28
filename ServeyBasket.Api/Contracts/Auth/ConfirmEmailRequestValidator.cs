@@ -1,8 +1,8 @@
 ﻿namespace ServeyBasket.Contracts.Auth;
 
-public class ConfirmEmailValidator : AbstractValidator<ConfirmEmailRequest>
+public class ConfirmEmailRequestValidator : AbstractValidator<ConfirmEmailRequest>
 {
-    public ConfirmEmailValidator()
+    public ConfirmEmailRequestValidator()
     {
         RuleFor(x => x.UserId)
             .NotEmpty();
