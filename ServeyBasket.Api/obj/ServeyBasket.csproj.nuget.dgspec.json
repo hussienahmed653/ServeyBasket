@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Infotech\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\ServeyBasket.csproj": {}
+    "C:\\Users\\hussi\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\ServeyBasket.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Infotech\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\ServeyBasket.csproj": {
+    "C:\\Users\\hussi\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\ServeyBasket.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Infotech\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\ServeyBasket.csproj",
+        "projectUniqueName": "C:\\Users\\hussi\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\ServeyBasket.csproj",
         "projectName": "ServeyBasket",
-        "projectPath": "C:\\Users\\Infotech\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\ServeyBasket.csproj",
-        "packagesPath": "C:\\Users\\Infotech\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Infotech\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\obj\\",
+        "projectPath": "C:\\Users\\hussi\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\ServeyBasket.csproj",
+        "packagesPath": "C:\\Users\\hussi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\hussi\\source\\repos\\ServeyBasket\\ServeyBasket.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "D:\\VSSharedComponants\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Infotech\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\hussi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
