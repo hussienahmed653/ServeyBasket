@@ -1,6 +1,7 @@
 ﻿using Hangfire;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.WebUtilities;
+using ServeyBasket.Abstractions.Const;
 using ServeyBasket.Helpers;
 using RegisterRequest = ServeyBasket.Contracts.Auth.RegisterRequest;
 
@@ -146,8 +147,12 @@ public class AuthServices(
         }
 
         var result = await _userManager.ConfirmEmailAsync(user, code);
+
         if (result.Succeeded)
+        {
+            await _userManager.AddToRoleAsync(user, DefaultRoles.Member);
             return Result.Success();
+        }
 
         var error = result.Errors.First();
         return Result.Failuer(new Error(error.Code, error.Description, StatusCodes.Status400BadRequest));

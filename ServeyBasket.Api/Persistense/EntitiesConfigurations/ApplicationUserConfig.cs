@@ -1,4 +1,6 @@
-﻿namespace ServeyBasket.Persistense.EntitiesConfigurations;
+﻿using ServeyBasket.Abstractions.Const;
+
+namespace ServeyBasket.Persistense.EntitiesConfigurations;
 
 public class ApplicationUserConfig : IEntityTypeConfiguration<ApplicationUser>
 {
@@ -15,5 +17,20 @@ public class ApplicationUserConfig : IEntityTypeConfiguration<ApplicationUser>
             .ToTable("RefreshTokens")
             .WithOwner()
             .HasForeignKey("UserId");
+
+        builder.HasData(new ApplicationUser
+        {
+            Id = DefaultUsers.AdminId,
+            FirstName = DefaultUsers.AdminFirstName,
+            LastName = DefaultUsers.AdminLastName,
+            UserName = DefaultUsers.AdminEmail,
+            NormalizedUserName = DefaultUsers.AdminEmail.ToUpper(),
+            Email = DefaultUsers.AdminEmail,
+            NormalizedEmail = DefaultUsers.AdminEmail.ToUpper(),
+            EmailConfirmed = true,
+            PasswordHash = DefaultUsers.AdminPasswordHasher,
+            ConcurrencyStamp = DefaultUsers.AdminConcurrencyStamp,
+            SecurityStamp = DefaultUsers.AdminSecurityStamp,
+        });
     }
 }
