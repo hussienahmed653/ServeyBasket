@@ -1,6 +1,4 @@
-﻿using ServeyBasket.Abstractions.Const;
-
-namespace ServeyBasket.Contracts.Auth;
+﻿namespace ServeyBasket.Contracts.Auth;
 
 public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
 {

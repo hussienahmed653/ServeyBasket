@@ -1,11 +1,4 @@
-﻿using MailKit.Net.Smtp;
-using MailKit.Security;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.Extensions.Options;
-using MimeKit;
-using ServeyBasket.Settings;
-
-namespace ServeyBasket.Services.Authentications.EmailSender;
+﻿namespace ServeyBasket.Services.Authentications.EmailSender;
 
 public class EmailService(IOptions<MailSettings> mailSettings) : IEmailSender
 {

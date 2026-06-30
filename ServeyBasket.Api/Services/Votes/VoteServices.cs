@@ -1,6 +1,4 @@
-﻿using ServeyBasket.Contracts.Votes;
-
-namespace ServeyBasket.Services.Votes;
+﻿namespace ServeyBasket.Services.Votes;
 
 public class VoteServices(ServeyBasketDbContext context) : IVoteServices
 {

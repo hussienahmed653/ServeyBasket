@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Hybrid;
-
+﻿
 namespace ServeyBasket.Services.Questions;
 
 public class QuestionServices(ServeyBasketDbContext dbContext, HybridCache hybridCache) : IQuestionServices

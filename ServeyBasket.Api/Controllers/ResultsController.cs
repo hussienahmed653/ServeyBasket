@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using ServeyBasket.Services.Results;
-
-namespace ServeyBasket.Controllers;
+﻿namespace ServeyBasket.Controllers;
 
 [Route("api/polls/{pollId}/[controller]")]
 [ApiController]

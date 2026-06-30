@@ -1,9 +1,3 @@
-using Hangfire;
-using HangfireBasicAuthenticationFilter;
-using Serilog;
-using ServeyBasket.Abstractions.Const;
-using ServeyBasket.Services.BackgroundJobNotification;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDependencies(builder.Configuration);

@@ -1,5 +1,4 @@
-﻿
-namespace ServeyBasket.Services.Results;
+﻿namespace ServeyBasket.Services.Results;
 
 public interface IResultServices
 {

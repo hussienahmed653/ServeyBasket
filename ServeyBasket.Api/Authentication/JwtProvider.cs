@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using System.Text.Json;
-
-namespace ServeyBasket.Authentication;
+﻿namespace ServeyBasket.Authentication;
 
 public class JwtProvider(IOptions<JwtOptions> options) : IJwtProvider
 {

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ServeyBasket.Authentication;
+﻿namespace ServeyBasket.Authentication;
 
 public class JwtOptions
 {

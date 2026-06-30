@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ServeyBasket")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3b1aa84cc2b8f2234ffa859b1cde3d9d607a70d0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bde8d09ad44b24671513e04683852ecc55d822ec")]
 [assembly: System.Reflection.AssemblyProductAttribute("ServeyBasket")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ServeyBasket")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

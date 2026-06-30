@@ -1,6 +1,4 @@
-﻿using ServeyBasket.Contracts.Users;
-
-namespace ServeyBasket.Services.Users;
+﻿namespace ServeyBasket.Services.Users;
 
 public interface IUserService
 {

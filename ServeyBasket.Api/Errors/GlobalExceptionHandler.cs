@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
-
-namespace ServeyBasket.Errors;
+﻿namespace ServeyBasket.Errors;
 
 public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {

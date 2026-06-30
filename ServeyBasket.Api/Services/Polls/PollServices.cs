@@ -1,6 +1,4 @@
-﻿using Hangfire;
-using ServeyBasket.Services.BackgroundJobNotification;
-
+﻿
 namespace ServeyBasket.Services.Polls;
 
 public class PollServices(ServeyBasketDbContext context, INotificationService notificationService) : IPollServices

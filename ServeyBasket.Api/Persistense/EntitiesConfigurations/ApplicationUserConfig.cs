@@ -1,6 +1,4 @@
-﻿using ServeyBasket.Abstractions.Const;
-
-namespace ServeyBasket.Persistense.EntitiesConfigurations;
+﻿namespace ServeyBasket.Persistense.EntitiesConfigurations;
 
 public class ApplicationUserConfig : IEntityTypeConfiguration<ApplicationUser>
 {

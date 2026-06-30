@@ -1,11 +1,4 @@
-﻿using Hangfire;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.WebUtilities;
-using ServeyBasket.Abstractions.Const;
-using ServeyBasket.Helpers;
-using RegisterRequest = ServeyBasket.Contracts.Auth.RegisterRequest;
-
-namespace ServeyBasket.Services.Authentications;
+﻿namespace ServeyBasket.Services.Authentications;
 
 public class AuthServices(
     UserManager<ApplicationUser> userManager,

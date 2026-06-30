@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
-using ServeyBasket.Helpers;
-
-namespace ServeyBasket.Services.BackgroundJobNotification;
+﻿namespace ServeyBasket.Services.BackgroundJobNotification;
 
 public class NotificationService(
     ServeyBasketDbContext context,

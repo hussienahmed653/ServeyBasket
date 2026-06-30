@@ -1,6 +1,4 @@
-﻿using ServeyBasket.Abstractions.Const;
-
-namespace ServeyBasket.Contracts.Users;
+﻿namespace ServeyBasket.Contracts.Users;
 
 public class ChangePasswordRequestValidator : AbstractValidator<ChangePasswordRequest>
 {

@@ -1,6 +1,4 @@
-﻿using ServeyBasket.Contracts.Users;
-
-namespace ServeyBasket.Controllers;
+﻿namespace ServeyBasket.Controllers;
 
 [Route("[controller]")]
 [ApiController]
