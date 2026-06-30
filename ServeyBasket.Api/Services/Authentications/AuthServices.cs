@@ -9,6 +9,7 @@ namespace ServeyBasket.Services.Authentications;
 
 public class AuthServices(
     UserManager<ApplicationUser> userManager,
+    ServeyBasketDbContext context,
     SignInManager<ApplicationUser> signInManager,
     ILogger<AuthServices> logger,
     IEmailSender emailSender,
@@ -16,6 +17,7 @@ public class AuthServices(
     IJwtProvider jwtProvider) : IAuthServices
 {
     private readonly UserManager<ApplicationUser> _userManager = userManager;
+    private readonly ServeyBasketDbContext _context = context;
     private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
     private readonly ILogger<AuthServices> _logger = logger;
     private readonly IEmailSender _emailSender = emailSender;
@@ -32,7 +34,8 @@ public class AuthServices(
         var result = await _signInManager.PasswordSignInAsync(user, request.Password, false, false);
         if (result.Succeeded)
         {
-            var (token, expiresIn) = _jwtProvider.GenerateToken(user);
+            var (roles, permissions) = await GetUserRolesAndPermissions(user);
+            var (token, expiresIn) = _jwtProvider.GenerateToken(user, roles, permissions);
             var refreshToken = GenerateRefreshToken();
 
             user.RefreshTokens.Add(new RefreshToken
@@ -65,8 +68,8 @@ public class AuthServices(
             return Result.Failuer<RefreshTokenRequest>(UserErrors.InvalidRefreshToken);
 
         refreshToken.RevokedOn = DateTime.UtcNow;
-
-        var newToken = _jwtProvider.GenerateToken(user);
+        var (roles, permissions) = await GetUserRolesAndPermissions(user);
+        var newToken = _jwtProvider.GenerateToken(user, roles, permissions);
         var newRefreshToken = GenerateRefreshToken();
 
         user.RefreshTokens.Select(x => x.RevokedOn = DateTime.UtcNow);
@@ -250,5 +253,18 @@ public class AuthServices(
         BackgroundJob.Enqueue(() => _emailSender.SendEmailAsync(user.Email!, "✅ Confirm your email", emailBody));
 
         await Task.CompletedTask;
+    }
+
+    private async Task<(IEnumerable<string> roles, IEnumerable<string> permissions)> GetUserRolesAndPermissions(ApplicationUser user)
+    {
+        var roles = await _userManager.GetRolesAsync(user);
+        var permissions = await (from r in _context.Roles
+                                 join rp in _context.RoleClaims
+                                 on r.Id equals rp.RoleId
+                                 where roles.Contains(r.Name!)
+                                 select rp.ClaimValue)
+                                .ToListAsync();
+
+        return (roles, permissions);
     }
 }
