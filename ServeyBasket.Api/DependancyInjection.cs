@@ -1,15 +1,4 @@
-﻿using Hangfire;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.OpenApi;
-using ServeyBasket.Services.Answers;
-using ServeyBasket.Services.Authentications.EmailSender;
-using ServeyBasket.Services.BackgroundJobNotification;
-using ServeyBasket.Services.Results;
-using ServeyBasket.Services.Users;
-using ServeyBasket.Services.Votes;
-using ServeyBasket.Settings;
-
+﻿using ServeyBasket.Authentication.Filters;
 
 namespace ServeyBasket;
 
@@ -49,6 +38,7 @@ public static class DependancyInjection
         services.AddScoped<IEmailSender, EmailService>();
         services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<IUserService, UserService>();
+        
 
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
@@ -100,6 +90,9 @@ public static class DependancyInjection
         services.AddIdentity<ApplicationUser, ApplicationRole>()
             .AddEntityFrameworkStores<ServeyBasketDbContext>()
             .AddDefaultTokenProviders();
+
+        services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
+        services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>

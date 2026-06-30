@@ -1,8 +1,9 @@
-﻿namespace ServeyBasket.Controllers;
+﻿using ServeyBasket.Authentication.Filters;
+
+namespace ServeyBasket.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
 public class PollsController(IPollServices pollServices) : ControllerBase
 {
     private readonly IPollServices _pollServices = pollServices;
@@ -13,11 +14,13 @@ public class PollsController(IPollServices pollServices) : ControllerBase
         return Ok(await _pollServices.GetAllAsync());
     }
     [HttpGet("current")]
+    [Authorize(Roles = DefaultRoles.Member)]
     public async Task<IActionResult> GetCurrent()
     {
         return Ok(await _pollServices.GetCurrentAsync());
     }
     [HttpGet("{id}")]
+    [HasPermission(Permissions.GetPolls)]
     public async Task<IActionResult> Get([FromRoute] int id)
     {
         var poll = await _pollServices.GetAsync(id);
