@@ -1,7 +1,7 @@
 ﻿namespace ServeyBasket.Persistense;
 
 public class ServeyBasketDbContext(DbContextOptions<ServeyBasketDbContext> options, IHttpContextAccessor httpContextAccessor) 
-    : IdentityDbContext<ApplicationUser>(options)
+    : IdentityDbContext<ApplicationUser, ApplicationRole, string>(options)
 {
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 

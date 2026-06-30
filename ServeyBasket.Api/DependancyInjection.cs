@@ -97,7 +97,7 @@ public static class DependancyInjection
             .ValidateOnStart();
         var jwtOptions = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
 
-        services.AddIdentity<ApplicationUser, IdentityRole>()
+        services.AddIdentity<ApplicationUser, ApplicationRole>()
             .AddEntityFrameworkStores<ServeyBasketDbContext>()
             .AddDefaultTokenProviders();
 
