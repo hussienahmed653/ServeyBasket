@@ -8,6 +8,15 @@ public static class UserErrors
     public static readonly Error InvalidToken =
         new("User.InvalidToken", "Invalid Jwt Token", statusCode: StatusCodes.Status401Unauthorized);
 
+    public static readonly Error DisabledUser =
+        new("User.DisabledUser", "Disabled user please contact with your adminstrator", statusCode: StatusCodes.Status403Forbidden);
+
+    public static readonly Error UserNotFound =
+        new("User.UserNotFound", "User is not found", statusCode: StatusCodes.Status404NotFound);
+
+    public static readonly Error LockedUser =
+        new("User.LockedUser", "Locked user please contact with your adminstrator", statusCode: StatusCodes.Status403Forbidden);
+
     public static readonly Error InvalidRefreshToken =
         new("User.InvalidRefreshToken", "Invalid Refresh Token", statusCode: StatusCodes.Status401Unauthorized);
 

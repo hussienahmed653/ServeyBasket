@@ -23,8 +23,10 @@ public class AuthServices(
 
         if (await _userManager.FindByEmailAsync(request.Email) is not { } user) 
             return Result.Failuer<AuthResponse>(UserErrors.InvalidCredentials);
+        if(user.IsDisabled)
+            return Result.Failuer<AuthResponse>(UserErrors.DisabledUser);
 
-        var result = await _signInManager.PasswordSignInAsync(user, request.Password, false, false);
+        var result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
         if (result.Succeeded)
         {
             var (roles, permissions) = await GetUserRolesAndPermissions(user);
@@ -41,7 +43,13 @@ public class AuthServices(
             return Result.Success(response);
         }
 
-        return Result.Failuer<AuthResponse>(result.IsNotAllowed ? UserErrors.EmailNotConfirmed : UserErrors.InvalidCredentials);
+        var error = result.IsNotAllowed
+            ? UserErrors.EmailNotConfirmed
+            : result.IsLockedOut
+            ? UserErrors.LockedUser
+            : UserErrors.InvalidCredentials;
+
+        return Result.Failuer<AuthResponse>(error);
     }
     public async Task<Result<RefreshTokenRequest>> GetRefreshTokenAsync(RefreshTokenRequest request)
     {
@@ -54,6 +62,12 @@ public class AuthServices(
 
         if (user == null)
             return Result.Failuer<RefreshTokenRequest>(UserErrors.InvalidToken);
+
+        if (user.IsDisabled)
+            return Result.Failuer<RefreshTokenRequest>(UserErrors.DisabledUser);
+
+        if(user.LockoutEnd > DateTime.UtcNow)
+            return Result.Failuer<RefreshTokenRequest>(UserErrors.LockedUser);
 
         var refreshToken = user!.RefreshTokens.SingleOrDefault(x => (x.Token == request.RefreshToken) && (x.RevokedOn is null));
 
