@@ -129,6 +129,10 @@
             "Swashbuckle.AspNetCore.SwaggerUI": {
               "target": "Package",
               "version": "[10.1.7, )"
+            },
+            "System.Linq.Dynamic.Core": {
+              "target": "Package",
+              "version": "[1.7.2, )"
             }
           },
           "imports": [

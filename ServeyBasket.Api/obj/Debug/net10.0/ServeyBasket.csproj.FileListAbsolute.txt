@@ -406,3 +406,4 @@ C:\Users\Infotech\source\repos\ServeyBasket\ServeyBasket.Api\obj\Debug\net10.0\r
 C:\Users\Infotech\source\repos\ServeyBasket\ServeyBasket.Api\obj\Debug\net10.0\ServeyBasket.pdb
 C:\Users\Infotech\source\repos\ServeyBasket\ServeyBasket.Api\obj\Debug\net10.0\ServeyBasket.genruntimeconfig.cache
 C:\Users\Infotech\source\repos\ServeyBasket\ServeyBasket.Api\obj\Debug\net10.0\ref\ServeyBasket.dll
+C:\Users\Infotech\source\repos\ServeyBasket\ServeyBasket.Api\bin\Debug\net10.0\System.Linq.Dynamic.Core.dll

@@ -106,6 +106,31 @@
         "Name": "pollId",
         "Type": "System.Int32",
         "IsRequired": true
+      },
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "SearchValue",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortColumn",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortDirection",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

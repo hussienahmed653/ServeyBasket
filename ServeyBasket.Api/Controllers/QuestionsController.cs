@@ -1,4 +1,6 @@
-﻿namespace ServeyBasket.Controllers;
+﻿using ServeyBasket.Contracts.Common;
+
+namespace ServeyBasket.Controllers;
 
 [Route("api/polls/{pollId}/[controller]")]
 [ApiController]
@@ -7,9 +9,9 @@ public class QuestionsController(IQuestionServices questionServices) : Controlle
 {
     private readonly IQuestionServices _questionServices = questionServices;
     [HttpGet]
-    public async Task<IActionResult> GetAll([FromRoute] int pollId)
+    public async Task<IActionResult> GetAll([FromRoute] int pollId, [FromQuery] RequestFilters filters)
     {
-        var result = await _questionServices.GetAll(pollId);
+        var result = await _questionServices.GetAll(pollId, filters);
         return result.IsSuccess 
             ? Ok(result.Value) 
             : result.ToProblem();

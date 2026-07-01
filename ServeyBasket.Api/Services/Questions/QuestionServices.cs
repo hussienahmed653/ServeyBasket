@@ -1,4 +1,6 @@
-﻿
+﻿using ServeyBasket.Contracts.Common;
+using System.Linq.Dynamic.Core;
+
 namespace ServeyBasket.Services.Questions;
 
 public class QuestionServices(ServeyBasketDbContext dbContext, HybridCache hybridCache) : IQuestionServices
@@ -6,23 +8,39 @@ public class QuestionServices(ServeyBasketDbContext dbContext, HybridCache hybri
     private readonly ServeyBasketDbContext _dbContext = dbContext;
     private readonly HybridCache _hybridCache = hybridCache;
     private readonly string _cachePrefix = "AvailableQuestions";
-    public async Task<Result<IEnumerable<QuestionResponse>>> GetAll(int pollId)
+    public async Task<Result<PaginatedList<QuestionResponse>>> GetAll(int pollId, RequestFilters filters)
     {
         var pollIsExist = await _dbContext.Polls.AnyAsync(p => p.Id == pollId);
 
         if (!pollIsExist)
-            return Result.Failuer<IEnumerable<QuestionResponse>>(PollErrors.PollNotFound);
+            return Result.Failuer<PaginatedList<QuestionResponse>>(PollErrors.PollNotFound);
 
         var cacheKey = $"{_cachePrefix}-{pollId}";
-        var questions = await _hybridCache.GetOrCreateAsync<IEnumerable<QuestionResponse>>(
-                cacheKey,
-                async cachedEntry => await _dbContext.Questions
-                .Where(q => q.PollId == pollId && q.IsActive)
-                .Include(q => q.Answers)
-                .ProjectToType<QuestionResponse>()
-                .AsNoTracking()
-                .ToListAsync()
-        );
+
+        var query = _dbContext.Questions
+            .Where(q => q.PollId == pollId && q.IsActive &&
+            (string.IsNullOrEmpty(filters.SearchValue) || q.Content.Contains(filters.SearchValue)));
+
+        if (!string.IsNullOrEmpty(filters.SortColumn))
+            query = query.OrderBy($"{filters.SortColumn} {filters.SortDirection}");
+
+        var source = query
+            .Include(q => q.Answers)
+            .ProjectToType<QuestionResponse>()
+            .AsNoTracking();
+
+        var questions = await PaginatedList<QuestionResponse>.CreateAsync(source, filters.PageNumber, filters.PageSize);
+        //var questions = await _hybridCache.GetOrCreateAsync<IEnumerable<QuestionResponse>>(
+        //        cacheKey,
+        //        async cachedEntry => await _dbContext.Questions
+        //        .Where(q => q.PollId == pollId && q.IsActive)
+        //        .Include(q => q.Answers)
+        //        .ProjectToType<QuestionResponse>()
+        //        .AsNoTracking()
+        //        .Skip((filters.PageNumber - 1) * filters.PageSize)
+        //        .Take(filters.PageSize)
+        //        .ToListAsync()
+        //);
 
         return Result.Success(questions);
     }
