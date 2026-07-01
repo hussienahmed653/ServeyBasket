@@ -1,4 +1,5 @@
 ﻿using ServeyBasket.Authentication.Filters;
+using ServeyBasket.Services.Roles;
 
 namespace ServeyBasket;
 
@@ -38,6 +39,7 @@ public static class DependancyInjection
         services.AddScoped<IEmailSender, EmailService>();
         services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IRoleService, RoleService>();
         
 
         services.AddExceptionHandler<GlobalExceptionHandler>();
